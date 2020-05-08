@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/searchHorizontalMarginDimen"
+    android:paddingRight="@dimen/searchHorizontalMarginDimen"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/searchDetailMarginVerticalDimen"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/search_border_img"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/search_search_iv"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:onClick="onClick"
+                android:src="@drawable/search_small_icon_img"/>
+            <EditText
+                android:id="@+id/search_search_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="파리"
+                android:layout_gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="10.2sp"
+                android:textColorHint="@color/colorGrey"
+                android:paddingLeft="11dp"
+                android:textCursorDrawable="@drawable/edittext_cursor"
+                android:singleLine="true"
+                android:fontFamily="@font/noto_light_font"
+                android:background="@null"
+                android:textColor="@color/colorBlack"
+                android:layout_weight="1"
+                android:textSize="17dp" />
+            <ImageView
+                android:id="@+id/search_search_erase_iv"
+                android:layout_width="@dimen/backDimen"
+                android:layout_height="@dimen/backDimen"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:onClick="onClick"
+                android:src="@drawable/x_img"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/search_search_back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:text="취소"
+            android:onClick="onClick"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="9dp"
+            android:textColor="#666666"
+            android:textStyle="bold"
+            android:fontFamily="@font/nanum_extra_bold"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/nanum_extra_bold"
+        android:includeFontPadding="false"
+        android:textStyle="bold"
+        android:text="최근 검색"
+        android:textSize="16dp"
+        android:textColor="@color/colorBlack" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recent_search_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

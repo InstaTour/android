@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="mainTopSmallDimen">27dp</dimen>
+    <dimen name="mainTopBigDimen">35dp</dimen>
+    <dimen name="mainSearchRadiusDimen">10dp</dimen>
+    <dimen name="mainHorizontalMarginDimen">15dp</dimen>
+    <dimen name="mainItemVerticalMarginDimen">40dp</dimen>
+    <dimen name="mainItemVerticalSmallMarginDimen">20dp</dimen>
+    <dimen name="searchHorizontalMarginDimen">20dp</dimen>
+    <dimen name="backDimen">17dp</dimen>
+    <dimen name="appHorizontalMarginDimen">10dp</dimen>
+    <dimen name="searchDetailMarginVerticalDimen">16dp</dimen>
+    <dimen name="mainWeeklyItemTextDimen">25dp</dimen>
+    <dimen name="mainWeeklyItemRadiusDimen">5dp</dimen>
+    <dimen name="detailPostingVerticalSmallDimen">20dp</dimen>
+    <dimen name="detailPostingVerticalBigDimen">40dp</dimen>
+</resources>
