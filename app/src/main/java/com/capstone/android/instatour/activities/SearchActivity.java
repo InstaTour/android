@@ -2,6 +2,7 @@ package com.capstone.android.instatour.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -15,14 +16,19 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
+import com.capstone.android.instatour.AppDatabase;
 import com.capstone.android.instatour.InstaTourApp;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.adapters.PostingAdapter;
 import com.capstone.android.instatour.adapters.RecentSearchAdpater;
 import com.capstone.android.instatour.datas.RecentData;
 import com.capstone.android.instatour.datas.TestData;
+import com.capstone.android.instatour.interfaces.RecentDataDao;
+import com.capstone.android.instatour.interfaces.RecentDeleteInterface;
+import com.capstone.android.instatour.utils.Utils;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,52 +45,58 @@ public class SearchActivity extends SuperActivity implements View.OnClickListene
     private EditText mEtSearch;
     private RecyclerView mRVRecent;
     private RecentSearchAdpater mRecentAdpater;
+    private AppDatabase db;
+    private RecentDeleteInterface deleteInterface = new RecentDeleteInterface() {
+        @Override
+        public void delete(RecentData data) {
+            new InsertAyncTask(AppDatabase.getInstance(activity).recentDataDao(), false).execute(data);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
         initViews();
         activity = this;
 
         initAdpater();
-        tmpInitRecentData();
 
-        mEtSearch.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        mEtSearch.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    Intent intent = new Intent(activity, SearchDetailActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+                insert();
 
-                    return true;
-                }
-                return false;
+                Intent intent = new Intent(activity, SearchDetailActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+
+                return true;
             }
+            return false;
         });
-    }
 
-    public void tmpInitRecentData() {
-        for(int i=0;i<10;i++){
-            RecentData tmpData = new RecentData();
-            tmpData.setCount("게시물 2.4M");
-            tmpData.setLocation("#파리");
-            mRecentAdpater.addData(tmpData);
-        }
+        // ui 갱신
+        AppDatabase.getInstance(this).recentDataDao().getAll().observe(this, recentData ->  {
+            mRecentAdpater.listToArrayList(recentData);
+            mRecentAdpater.notifyDataSetChanged();
+        });
+
+
+        // 버튼 클릭 시 db insert
     }
 
     public void initAdpater() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
-                return false;
+                return true;
             }
         };
         mRVRecent.setLayoutManager(linearLayoutManager);
-        mRecentAdpater = new RecentSearchAdpater(this);
+        mRecentAdpater = new RecentSearchAdpater(this, deleteInterface);
         mRVRecent.setAdapter(mRecentAdpater);
     }
 
@@ -101,6 +113,7 @@ public class SearchActivity extends SuperActivity implements View.OnClickListene
                 // start dialog
                 break;
             case R.id.search_search_iv:
+                insert();
                 Intent intent = new Intent(this, SearchDetailActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
@@ -113,4 +126,31 @@ public class SearchActivity extends SuperActivity implements View.OnClickListene
         mRVRecent = findViewById(R.id.search_recent_search_rv);
         mEtSearch = findViewById(R.id.search_search_et);
     }
+
+    public void insert() {
+        new InsertAyncTask(AppDatabase.getInstance(this).recentDataDao(), true).execute(new RecentData(mEtSearch.getText().toString(), Utils.getNowTime()));
+    }
+
+    private static class InsertAyncTask extends AsyncTask <RecentData, Void, Void> {
+        private RecentDataDao mRecentDataDao;
+        private boolean select;
+
+        public InsertAyncTask(RecentDataDao recentDataDao, boolean select) {
+            this.mRecentDataDao = recentDataDao;
+            this.select = select;
+        }
+
+        @Override
+        protected Void doInBackground(RecentData... recentData) {
+            if(select) {
+                mRecentDataDao.insert(recentData[0]);
+            }
+            else {
+                mRecentDataDao.delete(recentData[0]);
+            }
+
+            return  null;
+        }
+    }
+
 }

@@ -31,7 +31,7 @@
         android:appComponentFactory="whateverString"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.capstone.android.instatour.activities.MainActivity"
+        <activity android:name="com.capstone.android.instatour.activities.SearchActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,8 +44,8 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".activities.MainActivity"/>
         <activity android:name=".activities.SearchDetailActivity"/>
-        <activity android:name=".activities.SearchActivity"/>
         <activity android:name=".activities.DetailPostingActivity"/>
 
         <provider

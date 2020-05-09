@@ -12,10 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.capstone.android.instatour.AppDatabase;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.datas.RecentData;
+import com.capstone.android.instatour.interfaces.RecentDeleteInterface;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.capstone.android.instatour.InstaTourApp.httpChange;
 
@@ -24,9 +27,11 @@ public class RecentSearchAdpater extends RecyclerView.Adapter<RecentSearchAdpate
 
     private ArrayList<RecentData> listData = new ArrayList<>();
     private Activity activity;
+    private RecentDeleteInterface deleteInterface;
 
-    public RecentSearchAdpater(Activity activity) {
+    public RecentSearchAdpater(Activity activity, RecentDeleteInterface deleteInterface) {
         this.activity = activity;
+        this.deleteInterface = deleteInterface;
     }
     // constructor
 
@@ -39,6 +44,12 @@ public class RecentSearchAdpater extends RecyclerView.Adapter<RecentSearchAdpate
     public void setListData(ArrayList<RecentData> listData) {
         this.listData = listData;
     }
+
+    public void listToArrayList(List<RecentData> list) {
+        this.listData.clear();
+        this.listData.addAll(list);
+    }
+
 
     public void clearData() {
         listData = new ArrayList<>();
@@ -67,17 +78,25 @@ public class RecentSearchAdpater extends RecyclerView.Adapter<RecentSearchAdpate
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView search, count;
+        private TextView search, count, delete;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             search = itemView.findViewById(R.id.item_search_label_tv);
             count = itemView.findViewById(R.id.item_search_count_tv);
+            delete = itemView.findViewById(R.id.item_search_delete_tv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.i("PostingClick", "YES");
+                }
+            });
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteInterface.delete(listData.get(getAdapterPosition()));
                 }
             });
         }

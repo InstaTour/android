@@ -26,7 +26,7 @@ public class InstaTourApp extends Application {
     public static MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
 
 
-    public static String BASE_URL = "https://api.instatour.tech/";
+    public static String BASE_URL = "https://api.instatour.tech/v1/";
     // 싱글톤 데이터 리스트
     @Override
     public void onCreate() {
