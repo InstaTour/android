@@ -31,7 +31,7 @@
         android:appComponentFactory="whateverString"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.capstone.android.instatour.activities.SearchActivity"
+        <activity android:name="com.capstone.android.instatour.activities.SplashActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +47,9 @@
         <activity android:name=".activities.MainActivity"/>
         <activity android:name=".activities.SearchDetailActivity"/>
         <activity android:name=".activities.DetailPostingActivity"/>
+        <activity android:name=".activities.SearchActivity"/>
+        <activity android:name=".activities.LoginActivity"/>
+        <activity android:name=".activities.EditPostingActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -57,5 +60,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
     </application>
 </manifest>
