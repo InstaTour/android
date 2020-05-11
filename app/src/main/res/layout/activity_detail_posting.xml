@@ -27,7 +27,7 @@
                 android:layout_marginLeft="@dimen/searchHorizontalMarginDimen"
                 android:layout_marginTop="16dp"
                 android:onClick="onClick"
-                android:src="@drawable/back_img" />
+                android:src="@drawable/back_dark_img" />
 
             <ImageView
                 android:id="@+id/detail_posting_heart_iv"

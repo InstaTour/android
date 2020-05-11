@@ -28,3 +28,5 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     }
 }
+
+// 싱글 톤 적용

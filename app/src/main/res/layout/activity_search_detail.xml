@@ -18,7 +18,7 @@
             android:onClick="onClick"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/searchHorizontalMarginDimen"
-            android:src="@drawable/back_img"/>
+            android:src="@drawable/back_dark_img"/>
        <TextView
            android:id="@+id/search_detail_location_tv"
            android:layout_width="wrap_content"
@@ -30,6 +30,14 @@
            android:includeFontPadding="false"
            android:layout_gravity="center"
            android:textSize="17dp"/>
+       <ImageView
+           android:id="@+id/search_detail_plus_iv"
+           android:layout_width="@dimen/backDimen"
+           android:layout_height="@dimen/backDimen"
+           android:src="@drawable/plus_dark_img"
+           android:layout_gravity="center_vertical |right"
+           android:onClick="onClick"
+           android:layout_marginRight="@dimen/searchHorizontalMarginDimen"/>
    </FrameLayout>
 
     <View

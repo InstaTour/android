@@ -20,11 +20,13 @@ import android.app.DatePickerDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -36,13 +38,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkLossHandler;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.bumptech.glide.Glide;
+import com.capstone.android.instatour.InstaTourApp;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.activities.MainActivity;
 import com.capstone.android.instatour.activities.SuperActivity;
@@ -50,18 +66,13 @@ import com.capstone.android.instatour.adapters.DetailPostingImageAdapter;
 import com.capstone.android.instatour.adapters.UriImageAdapter;
 import com.capstone.android.instatour.dialogs.ReviewCameraDialog;
 import com.capstone.android.instatour.interfaces.DialogCameraInterface;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
+import com.capstone.android.instatour.utils.Utils;
 import com.google.gson.JsonObject;
 import com.yalantis.ucrop.UCrop;
+
 import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -70,6 +81,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -95,7 +107,7 @@ public class EditPostingActivity extends SuperActivity implements View.OnClickLi
     private UriImageAdapter uriImageAdapter;
     private ViewPager2 mVP2Image;
 
-    private ArrayList<Uri> uriList = new ArrayList<>();
+    private int year, month, dates;
 
     private DialogCameraInterface mCameraInterface = new DialogCameraInterface() {
         @Override
@@ -118,6 +130,8 @@ public class EditPostingActivity extends SuperActivity implements View.OnClickLi
         checkPermissions(); // permission check
         init();
         initAdapter();
+
+//        InstaTourApp.awsInstanceMethod(this);
     }
 
     public void initAdapter() {
@@ -190,7 +204,21 @@ public class EditPostingActivity extends SuperActivity implements View.OnClickLi
                 }
                 break;
             case R.id.edit_posting_finish_btn:
+                uploadFileToS3("test");
+                break;
 
+            case R.id.edit_posting_date_tv:
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int tmpYear, int tmpMonth, int tmpDayOfMonth) {
+
+                        year = tmpYear;
+                        month = tmpMonth;
+                        dates = tmpDayOfMonth;
+
+                    }
+                }, year, month, dates);
+                datePickerDialog.show();
                 break;
         }
     }
@@ -269,18 +297,17 @@ public class EditPostingActivity extends SuperActivity implements View.OnClickLi
             photoUri = data.getData();
 
             uriImageAdapter.clearData();
-            if(data.getClipData() != null) {
+            if (data.getClipData() != null) {
                 ClipData mClipData = data.getClipData();
 
                 for (int i = 0; i < mClipData.getItemCount(); i++) {
                     ClipData.Item item = mClipData.getItemAt(i);
                     Uri uri = item.getUri();
-                    uriImageAdapter.addData(uri);
+                    uriImageAdapter.addData(getRealPathFromURI(uri));
+                    Log.i("TESTSTAR2", String.valueOf(getRealPathFromURI(uri)));
                 }
                 uriImageAdapter.notifyDataSetChanged();
-            }
-
-            else {
+            } else {
                 uriImageAdapter.addData(photoUri);
                 uriImageAdapter.notifyDataSetChanged();
             }
@@ -304,6 +331,8 @@ public class EditPostingActivity extends SuperActivity implements View.OnClickLi
                 mMode = AFTER_IMAGE;
 
                 uriImageAdapter.addData(savingUri);
+                uriImageAdapter.notifyDataSetChanged();
+                Log.i("TESTSTAR3", String.valueOf(savingUri));
             } catch (Exception e) {
             }
         }
@@ -317,8 +346,11 @@ public class EditPostingActivity extends SuperActivity implements View.OnClickLi
                 ByteArrayOutputStream bs = new ByteArrayOutputStream();
                 thumbImage.compress(Bitmap.CompressFormat.JPEG, 100, bs);
 
+                uriImageAdapter.addData(savingUri);
+                uriImageAdapter.notifyDataSetChanged();
 
                 mMode = AFTER_IMAGE;
+                Log.i("TESTSTAR3", String.valueOf(savingUri));
             } catch (Exception e) {
             }
         }
@@ -350,5 +382,110 @@ public class EditPostingActivity extends SuperActivity implements View.OnClickLi
                 .start(activity);
         // important code
 
+    }
+
+    public Uri getRealPathFromURI (Uri contentUri) {
+        if (contentUri.getPath().startsWith("/storage")) {
+            return Uri.parse("file://"+contentUri.getPath());
+        }
+        String id = DocumentsContract.getDocumentId(contentUri).split(":")[1];
+        String[] columns = { MediaStore.Files.FileColumns.DATA };
+        String selection = MediaStore.Files.FileColumns._ID + " = " + id;
+        Cursor cursor = getContentResolver().query(MediaStore.Files.getContentUri("external"),
+                columns,
+                selection,
+                null,
+                null);
+        try {
+            int columnIndex = cursor.getColumnIndex(columns[0]);
+            if (cursor.moveToFirst()) {
+                return Uri.parse("file://"+cursor.getString(columnIndex));
+            }
+        }
+        finally {
+            cursor.close();
+        }
+        return null;
+    }
+    // content uri parse to real uri path
+
+    public void uploadFileToS3(String fileName) {
+        AWSCredentials awsCredentials = new BasicAWSCredentials(getString(R.string.ACCESS_KEY), getString(R.string.SECRET_KEY));
+        AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
+        TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
+        TransferNetworkLossHandler.getInstance(this);
+
+        TransferObserver uploadObserver = null;
+        for(int i=0;i<uriImageAdapter.getListData().size();i++){
+            uploadObserver = transferUtility.upload("instatour-image", fileName+ Utils.getNowByTimeStamp() +".png", new File(uriImageAdapter.getListData().get(i).getPath()), CannedAccessControlList.PublicRead);
+
+        }
+
+        uploadObserver.setTransferListener(new TransferListener() {
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+                Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
+
+                if(state == TransferState.COMPLETED) {
+                    activity.finish();
+                }
+
+            }
+
+            @Override
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+                int percentDone = (int)percentDonef;
+                Log.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                Log.e(TAG, ex.getMessage());
+            }
+        });
+
+
+//        BasicAWSCredentials credentials = new BasicAWSCredentials(getString(R.string.ACCESS_KEY), getString(R.string.SECRET_KEY));
+//        AmazonS3Client s3Client = new AmazonS3Client(credentials);
+//
+//        TransferUtility transferUtility =
+//                TransferUtility.builder()
+//                        .context(getApplicationContext())
+//                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+//                        .s3Client(s3Client)
+//                        .build();
+//
+//// "jsaS3" will be the folder that contains the file
+//        TransferObserver uploadObserver =
+//                transferUtility.upload("instatour-image", new File(uriImageAdapter.getListData().get(0).getPath()));
+//
+//        uploadObserver.setTransferListener(new TransferListener() {
+//
+//            @Override
+//            public void onStateChanged(int id, TransferState state) {
+//                if (TransferState.COMPLETED == state) {
+//                    // Handle a completed download.
+//                }
+//            }
+//
+//            @Override
+//            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+//                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+//                int percentDone = (int) percentDonef;
+//            }
+//
+//            @Override
+//            public void onError(int id, Exception ex) {
+//                // Handle errors
+//            }
+//
+//        });
+//
+//// If your upload does not trigger the onStateChanged method inside your
+//// TransferListener, you can directly check the transfer state as shown here.
+//        if (TransferState.COMPLETED == uploadObserver.getState()) {
+//            // Handle a completed upload.
+//        }
     }
 }

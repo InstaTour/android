@@ -3,6 +3,9 @@ package com.capstone.android.instatour;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
+
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import java.util.concurrent.TimeUnit;
@@ -25,8 +28,7 @@ public class InstaTourApp extends Application {
     public static MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json");
     public static MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
 
-
-    public static String BASE_URL = "https://api.instatour.tech/v1/";
+    public static String BASE_URL = "https://api.instatour.tech/";
     // 싱글톤 데이터 리스트
     @Override
     public void onCreate() {
@@ -35,6 +37,10 @@ public class InstaTourApp extends Application {
         //Tracking Start
         Stetho.initializeWithDefaults(this);
 
+    }
+
+    public static void awsInstanceMethod(final Context context) {
+        AWSMobileClient.getInstance().initialize(context).execute();
     }
 
 

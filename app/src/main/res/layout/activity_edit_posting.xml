@@ -29,12 +29,12 @@
                 android:layout_marginLeft="@dimen/searchHorizontalMarginDimen"
                 android:layout_marginTop="16dp"
                 android:onClick="onClick"
-                android:src="@drawable/back_img" />
+                android:src="@drawable/back_dark_img" />
 
             <ImageView
                 android:id="@+id/edit_posting_picture_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/backDimen"
+                android:layout_height="@dimen/backDimen"
                 android:layout_gravity="right"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="@dimen/searchHorizontalMarginDimen"
@@ -95,7 +95,7 @@
                 android:layout_marginTop="@dimen/detailPostingVerticalSmallDimen"
                 android:fontFamily="@font/nanum_extra_bold"
                 android:padding="10dp"
-                android:text="파리 사랑의 벽"
+                android:hint="제목을 작성 해주세요."
                 android:textColor="@color/colorBlack"
                 android:background="@drawable/dotted_line_background"
                 android:textSize="30dp"
@@ -107,11 +107,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/detailPostingVerticalSmallDimen"
                 android:fontFamily="@font/nanum_bold"
-                android:text="파리 사랑의 벽 파리 사랑의 벽 파리 사랑의 벽 파리 사랑의 벽 파리 사랑의 벽 파리 사랑의 벽파리 사랑의 벽 파리 사랑의 벽 파리 사랑의 벽파리 사랑의 벽 파리 사랑의 벽 파리 사랑의 벽"
+                android:hint="상세 내용을 작성 해주세요."
                 android:textColor="@color/colorBlack"
                 android:paddingBottom="20dp"
                 android:lineSpacingExtra="6sp"
-                android:hint="내용을 써주세요."
                 android:includeFontPadding="false"
                 android:padding="10dp"
                 android:background="@drawable/dotted_line_background"
@@ -127,6 +126,7 @@
                 android:gravity="center_vertical"
                 android:text="2020-05-06"
                 android:textColor="@color/colorGrey"
+                android:onClick="onClick"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 

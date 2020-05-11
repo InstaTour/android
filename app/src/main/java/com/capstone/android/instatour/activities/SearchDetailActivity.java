@@ -1,6 +1,7 @@
 package com.capstone.android.instatour.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -71,6 +72,11 @@ public class SearchDetailActivity extends SuperActivity implements View.OnClickL
             case R.id.search_detail_section_layout:
             case R.id.search_detail_section_text_tv:
                 // start dialog
+                break;
+            case R.id.search_detail_plus_iv:
+                Intent intent = new Intent(activity, EditPostingActivity.class);
+                activity.startActivity(intent);
+                activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
         }
     }
