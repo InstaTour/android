@@ -37,7 +37,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="@null"
-                android:fontFamily="@font/noto_light_font"
+                android:fontFamily="@font/nanum_regular"
                 android:hint="파리"
                 android:includeFontPadding="false"
                 android:lineSpacingExtra="10.2sp"
@@ -55,7 +55,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="15dp"
                 android:onClick="onClick"
-                android:src="@drawable/x_img" />
+                android:src="@drawable/small_x_img" />
         </LinearLayout>
 
         <TextView

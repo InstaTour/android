@@ -27,7 +27,7 @@
                 android:layout_marginLeft="@dimen/searchHorizontalMarginDimen"
                 android:layout_marginTop="16dp"
                 android:onClick="onClick"
-                android:src="@drawable/back_dark_img" />
+                android:src="@drawable/dark_back_img" />
 
             <ImageView
                 android:id="@+id/detail_posting_heart_iv"
@@ -36,7 +36,7 @@
                 android:layout_gravity="right"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="@dimen/searchHorizontalMarginDimen"
-                android:src="@drawable/heart_img" />
+                android:src="@drawable/full_heart_img" />
         </FrameLayout>
 
         <LinearLayout
@@ -56,7 +56,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/gps_img" />
+                    android:src="@drawable/grey_gps_img" />
 
                 <TextView
                     android:id="@+id/detail_posting_location_tv"
@@ -168,7 +168,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/insta_background" />
+                        android:src="@drawable/main_color_circle_img" />
 
                     <ImageView
                         android:id="@+id/detail_posting_second_iv"

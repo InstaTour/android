@@ -16,7 +16,7 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/main_picture_img"
+            tools:src="@drawable/main_color_shape_img"
             />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
             <ImageView
                 android:layout_width="17dp"
                 android:layout_height="17dp"
-                android:src="@drawable/eye_img"
+                android:src="@drawable/white_eye_img"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"/>
             <TextView
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/colorWhite"
-                android:fontFamily="@font/noto_light"
+                android:fontFamily="@font/nanum_regular"
                 android:textStyle="bold"
                 android:textSize="14dp"
                 android:text="25"/>

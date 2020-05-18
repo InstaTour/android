@@ -29,7 +29,7 @@
                 android:layout_marginLeft="@dimen/searchHorizontalMarginDimen"
                 android:layout_marginTop="16dp"
                 android:onClick="onClick"
-                android:src="@drawable/back_dark_img" />
+                android:src="@drawable/dark_back_img" />
 
             <ImageView
                 android:id="@+id/edit_posting_picture_iv"
@@ -39,7 +39,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="@dimen/searchHorizontalMarginDimen"
                 android:onClick="onClick"
-                android:src="@drawable/picture_select_img" />
+                android:src="@drawable/white_picture_select_img" />
         </FrameLayout>
 
         <LinearLayout
@@ -59,7 +59,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/gps_img" />
+                    android:src="@drawable/grey_gps_img" />
 
                 <TextView
                     android:id="@+id/edit_posting_location_tv"

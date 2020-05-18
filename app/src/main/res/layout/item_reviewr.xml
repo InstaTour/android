@@ -11,7 +11,7 @@
         android:id="@+id/item_review_first_iv"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/insta_background"
+        android:src="@drawable/main_color_circle_img"
         android:layout_gravity="center"/>
     <ImageView
         android:id="@+id/item_review_second_iv"

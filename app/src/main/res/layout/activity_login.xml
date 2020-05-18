@@ -17,7 +17,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/instatour_logo" />
+            android:src="@drawable/instatour_logo_img" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:singleLine="true"
-            android:fontFamily="@font/noto_light_font"
+            android:fontFamily="@font/nanum_regular"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/colorViolet"
             android:textCursorDrawable="@drawable/edittext_cursor"
@@ -85,7 +85,7 @@
             android:paddingTop="11dp"
             android:paddingBottom="12dp"
             android:singleLine="true"
-            android:fontFamily="@font/noto_light_font"
+            android:fontFamily="@font/nanum_regular"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/colorViolet"
             android:textCursorDrawable="@drawable/edittext_cursor"
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textColor="@color/colorViolet"
-                android:fontFamily="@font/noto_light_font"
+                android:fontFamily="@font/nanum_regular"
                 android:padding="10dp"
                 android:includeFontPadding="false"
                 android:lineSpacingExtra="3sp"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textColor="@color/colorViolet"
-                android:fontFamily="@font/noto_light_font"
+                android:fontFamily="@font/nanum_regular"
                 android:lineSpacingExtra="3sp"
                 android:gravity="center_horizontal"
                 android:text="|"
@@ -152,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textColor="@color/colorViolet"
-                android:fontFamily="@font/noto_light_font"
+                android:fontFamily="@font/nanum_regular"
                 android:lineSpacingExtra="3sp"
                 android:padding="10dp"
                 android:includeFontPadding="false"

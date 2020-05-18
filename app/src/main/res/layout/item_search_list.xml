@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/head_img"/>
+        android:src="@drawable/black_head_img"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,13 +22,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"
-                android:fontFamily="@font/noto_light"
+                android:fontFamily="@font/nanum_regular"
                 android:text="#파리"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
-            android:fontFamily="@font/noto_light"
+            android:fontFamily="@font/nanum_regular"
             android:text="게시글 2.8M"/>
     </LinearLayout>
 
