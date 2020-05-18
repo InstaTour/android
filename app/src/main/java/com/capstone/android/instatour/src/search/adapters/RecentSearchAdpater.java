@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.search.interfaces.RecentDeleteInterface;
 import com.capstone.android.instatour.src.search.models.RecentData;
+import com.capstone.android.instatour.src.search_detail.SearchDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +86,8 @@ public class RecentSearchAdpater extends RecyclerView.Adapter<RecentSearchAdpate
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(activity, SearchDetailActivity.class);
-//                    activity.startActivity(intent);
+                    Intent intent = new Intent(activity, SearchDetailActivity.class);
+                    activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                     Log.i("PostingClick", "YES");
                 }

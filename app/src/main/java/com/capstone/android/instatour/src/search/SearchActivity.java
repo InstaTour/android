@@ -27,6 +27,7 @@ import com.capstone.android.instatour.src.search.adapters.RecentSearchAdpater;
 import com.capstone.android.instatour.src.search.dao.RecentDataDao;
 import com.capstone.android.instatour.src.search.interfaces.RecentDeleteInterface;
 import com.capstone.android.instatour.src.search.models.RecentData;
+import com.capstone.android.instatour.src.search_detail.SearchDetailActivity;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
 import com.capstone.android.instatour.utils.Utils;
 import com.google.android.material.navigation.NavigationView;
@@ -64,9 +65,9 @@ public class SearchActivity extends BaseActivity {
 
                 insert();
 
-//                Intent intent = new Intent(activity, SearchDetailActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+                Intent intent = new Intent(activity, SearchDetailActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
 
                 return true;
             }
@@ -102,8 +103,8 @@ public class SearchActivity extends BaseActivity {
                 break;
             case R.id.search_search_iv:
                 insert();
-//                Intent intent = new Intent(this, SearchDetailActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(this, SearchDetailActivity.class);
+                startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
         }

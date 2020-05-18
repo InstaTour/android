@@ -40,6 +40,7 @@
         </activity>
 
         <activity android:name=".src.search.SearchActivity"/>
+        <activity android:name=".src.search_detail.SearchDetailActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
