@@ -61,25 +61,25 @@ public class SplashActivity extends BaseActivity {
 //                    public void onNext(LoginResponse res) {
 //
 //                        if (res.getCode() == 200) {
-//                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+//                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                            startActivity(intent);
 //                            finish();
 //                        }
 //                        // success auto login
 //
 //                        else if (res.getCode() == 403) {
-//                            SharedPreferences mSharedPreferences = SplashActivity.this.getSharedPreferences(MoariApp.TAG, Context.MODE_PRIVATE);
+//                            SharedPreferences mSharedPreferences = LoginActivity.this.getSharedPreferences(MoariApp.TAG, Context.MODE_PRIVATE);
 //                            SharedPreferences.Editor editor = mSharedPreferences.edit();
 //                            editor.remove(X_ACCESS_TOKEN);
 //                            editor.commit();
 //                            // remove token when token error
 //
-//                            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+//                            Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
 //                            startActivity(intent);
 //                            finish();
 //                        }
 //                        else {
-//                            Toast.makeText(SplashActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginActivity.this, res.getMessage(), Toast.LENGTH_SHORT).show();
 //                        }
 //
 //                    }
