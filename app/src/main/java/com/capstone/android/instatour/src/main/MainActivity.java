@@ -25,6 +25,7 @@ import com.capstone.android.instatour.src.main.adapters.MonthlyAdpater;
 import com.capstone.android.instatour.src.main.adapters.ReviewerAdapter;
 import com.capstone.android.instatour.src.main.adapters.WeeklyAdpater;
 import com.capstone.android.instatour.src.main.interfaces.MainActivityView;
+import com.capstone.android.instatour.src.search.SearchActivity;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
 import com.google.android.material.navigation.NavigationView;
 
@@ -175,8 +176,8 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_view_search_layout:
-//                Intent intent = new Intent(this, SearchActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
         }
