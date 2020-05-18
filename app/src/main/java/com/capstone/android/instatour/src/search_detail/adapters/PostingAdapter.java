@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
+import com.capstone.android.instatour.src.detail_posting.DetailPostingPostingActivity;
 
 import java.util.ArrayList;
 import static com.capstone.android.instatour.src.ApplicationClass.httpChange;
@@ -84,8 +85,8 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ItemView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(activity, DetailPostingActivity.class);
-//                    activity.startActivity(intent);
+                    Intent intent = new Intent(activity, DetailPostingPostingActivity.class);
+                    activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 }
             });

@@ -21,7 +21,6 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.BaseActivity;
-import com.capstone.android.instatour.src.search.SearchActivity;
 import com.capstone.android.instatour.src.search_detail.adapters.PostingAdapter;
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailActivityView;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;

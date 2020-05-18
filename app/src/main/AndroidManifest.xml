@@ -41,6 +41,7 @@
 
         <activity android:name=".src.search.SearchActivity"/>
         <activity android:name=".src.search_detail.SearchDetailActivity"/>
+        <activity android:name=".src.detail_posting.DetailPostingPostingActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
