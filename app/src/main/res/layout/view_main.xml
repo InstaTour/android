@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorWhite">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/travel_shape_img" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginBottom="7dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanum_extra_bold"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.1"
+                            android:text="반가워요"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/mainTopSmallDimen"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/main_view_nickname_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/nanum_extra_bold"
+                            android:includeFontPadding="false"
+                            android:letterSpacing="0.1"
+                            android:text="영민님"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/mainTopBigDimen"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanum_extra_bold"
+                        android:includeFontPadding="false"
+                        android:letterSpacing="0.1"
+                        android:text="어디로 떠나볼까요?"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/mainTopSmallDimen"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:stateListAnimator="@null"
+                    app:contentInsetStartWithNavigation="0dp">
+
+                    <androidx.appcompat.widget.Toolbar xmlns:app="schemas.android.com/apk/res-auto"
+                        android:id="@+id/toolbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/mainHorizontalMarginDimen"
+                        android:layout_marginTop="5dp" />
+                </com.google.android.material.appbar.AppBarLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/main_view_search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/mainHorizontalMarginDimen"
+                android:layout_marginRight="@dimen/mainHorizontalMarginDimen"
+                android:background="@drawable/white_shadow_border_img"
+                android:orientation="horizontal"
+                android:onClick="onClick"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/search_small_icon_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/nanum_regular"
+                    android:text="어디로 떠나시겠어요?"
+                    android:textColor="@color/colorGrey" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/mainHorizontalMarginDimen"
+            android:paddingRight="@dimen/mainHorizontalMarginDimen">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mainItemVerticalMarginDimen"
+                android:layout_marginBottom="@dimen/mainItemVerticalSmallMarginDimen"
+                android:fontFamily="@font/nanum_extra_bold"
+                android:includeFontPadding="false"
+                android:text="Weekly Top Click Tag"
+                android:textColor="@color/colorBlack"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/main_view_weekly_viewpager2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/mainItemVerticalMarginDimen"
+                android:layout_marginBottom="@dimen/mainItemVerticalSmallMarginDimen"
+                android:fontFamily="@font/nanum_extra_bold"
+                android:includeFontPadding="false"
+                android:text="Monthly Top Click Tag"
+                android:textColor="@color/colorBlack"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/mainItemVerticalMarginDimen">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_view_month_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/mainItemVerticalSmallMarginDimen"
+                android:fontFamily="@font/nanum_extra_bold"
+                android:includeFontPadding="false"
+                android:text="Top Reviewer"
+                android:textColor="@color/colorBlack"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/mainItemVerticalMarginDimen">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_view_reviwer_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
