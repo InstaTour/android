@@ -30,7 +30,7 @@
         android:appComponentFactory="whateverString"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.capstone.android.instatour.src.main.MainActivity"
+        <activity android:name="com.capstone.android.instatour.src.splash.SplashActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +39,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".src.main.MainActivity"/>
         <activity android:name=".src.search.SearchActivity"/>
         <activity android:name=".src.search_detail.SearchDetailActivity"/>
         <activity android:name=".src.detail_posting.DetailPostingPostingActivity"/>
