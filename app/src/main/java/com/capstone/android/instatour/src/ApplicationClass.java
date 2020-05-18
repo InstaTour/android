@@ -19,7 +19,7 @@ public class ApplicationClass extends Application {
     public static MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
 
     // 테스트 서버 주소
-    public static String BASE_URL = "http://apis.newvement.com/";
+    public static String BASE_URL = "https://api.instatour.tech/";
     // 실서버 주소
 //    public static String BASE_URL = "https://template.softsquared.com/";
 
@@ -44,6 +44,17 @@ public class ApplicationClass extends Application {
         if (sSharedPreferences == null) {
             sSharedPreferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         }
+    }
+
+    public static String httpChange(String http) {
+        if(http != null) {
+            if(http.length()>5) {
+                if(http.charAt(0) == 'h' && http.charAt(1) == 't' && http.charAt(2) == 't' && http.charAt(3) == 'p' && http.charAt(4) != 's' ) {
+                    return http.replaceFirst("http", "https");
+                }
+            }
+        }
+        return http;
     }
 
     public static Retrofit getRetrofit() {

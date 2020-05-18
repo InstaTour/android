@@ -3,7 +3,8 @@ package com.capstone.android.instatour.src.main;
 
 import com.capstone.android.instatour.src.main.interfaces.MainActivityView;
 import com.capstone.android.instatour.src.main.interfaces.MainRetrofitInterface;
-import com.capstone.android.instatour.src.main.models.DefaultResponse;
+import com.capstone.android.instatour.src.main.models.TestResponse;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,20 +21,21 @@ class MainService {
 
     void getTest() {
         final MainRetrofitInterface mainRetrofitInterface = getRetrofit().create(MainRetrofitInterface.class);
-        mainRetrofitInterface.getTest().enqueue(new Callback<DefaultResponse>() {
+
+        mainRetrofitInterface.getTestPost().enqueue(new Callback<TestResponse>() {
             @Override
-            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                final DefaultResponse defaultResponse = response.body();
+            public void onResponse(Call<TestResponse> call, Response<TestResponse> response) {
+                final TestResponse defaultResponse = response.body();
                 if (defaultResponse == null) {
                     mMainActivityView.validateFailure(null);
                     return;
                 }
 
-                mMainActivityView.validateSuccess(defaultResponse.getMessage());
+                mMainActivityView.validateSuccess(defaultResponse.getData().getData());
             }
 
             @Override
-            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+            public void onFailure(Call<TestResponse> call, Throwable t) {
                 mMainActivityView.validateFailure(null);
             }
         });

@@ -23,7 +23,7 @@
                 android:layout_height="300dp" />
 
             <ImageView
-                android:id="@+id/edit_posting_iv"
+                android:id="@+id/edit_posting_back_iv"
                 android:layout_width="@dimen/backDimen"
                 android:layout_height="@dimen/backDimen"
                 android:layout_marginLeft="@dimen/searchHorizontalMarginDimen"

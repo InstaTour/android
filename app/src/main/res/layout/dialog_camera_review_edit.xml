@@ -7,7 +7,7 @@
     >
 
     <TextView
-        android:id="@+id/dialog_review_album_tv"
+        android:id="@+id/dialog_album_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="17sp"
@@ -24,7 +24,7 @@
         android:layout_height="1dp"
         android:background="@color/colorGrey"/>
     <TextView
-        android:id="@+id/dialog_review_camera_tv"
+        android:id="@+id/dialog_camera_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="17sp"
