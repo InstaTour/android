@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradation_pink_color"
+    android:paddingTop="30dp"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/searchHorizontalMarginDimen"
+    android:paddingRight="@dimen/searchHorizontalMarginDimen">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/nanum_extra_bold"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.1"
+        android:text="캐릭터를"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/mainTopBigDimen"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/nanum_bold"
+        android:layout_marginTop="5dp"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.1"
+        android:text="설정해주세요."
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/mainTopBigDimen"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/main_item_radius_shoadow_background"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_regular"
+        android:singleLine="true"
+        android:includeFontPadding="false"
+        android:layout_marginTop="50dp"
+        android:inputType="textPassword"
+        android:theme="@style/EditTextStyle"
+        android:hint="닉네밈을 입력해주세요."/>
+
+    <Button
+        android:id="@+id/edit_posting_finish_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:stateListAnimator="@null"
+        android:includeFontPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/signup_radius_background"
+        android:fontFamily="@font/nanum_extra_bold"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"
+        android:text="회원 가입"
+        android:onClick="onClick"
+        />
+</LinearLayout>
