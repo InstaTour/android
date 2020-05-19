@@ -21,6 +21,7 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.BaseActivity;
+import com.capstone.android.instatour.src.edit_posting.EditPostingActivity;
 import com.capstone.android.instatour.src.search_detail.adapters.PostingAdapter;
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailActivityView;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
@@ -91,8 +92,8 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
                 // start dialog
                 break;
             case R.id.search_detail_plus_iv:
-//                Intent intent = new Intent(activity, EditPostingActivity.class);
-//                activity.startActivity(intent);
+                Intent intent = new Intent(activity, EditPostingActivity.class);
+                activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
         }

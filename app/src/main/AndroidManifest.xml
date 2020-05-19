@@ -43,6 +43,7 @@
         <activity android:name=".src.search.SearchActivity"/>
         <activity android:name=".src.search_detail.SearchDetailActivity"/>
         <activity android:name=".src.detail_posting.DetailPostingPostingActivity"/>
+        <activity android:name=".src.edit_posting.EditPostingActivity"/>
         <activity android:name=".src.login.LoginActivity"/>
 
         <provider
@@ -54,5 +55,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
     </application>
 </manifest>

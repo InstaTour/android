@@ -60,12 +60,13 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void init() {
+        activity = this;
         mEtSearch.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
                 insert();
 
-                Intent intent = new Intent(activity, SearchDetailActivity.class);
+                Intent intent = new Intent(this, SearchDetailActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
 
