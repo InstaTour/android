@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,33 +11,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingLeft="@dimen/searchHorizontalMarginDimen"
-        android:orientation="horizontal">
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/searchHorizontalMarginDimen">
+
         <ImageView
+            android:id="@+id/signup_back_iv"
             android:layout_width="@dimen/backDimen"
             android:layout_height="@dimen/backDimen"
-            android:src="@drawable/white_back_img"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/white_back_img" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:fontFamily="@font/nanum_regular"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="1sp"
             android:text="회원가입"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical"
             android:textColor="@color/colorWhite"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textStyle="bold" />
     </LinearLayout>
-    <TableLayout
-        android:id="@+id/signup_tablayout"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <fragment
-        android:id="@+id/signup_fragment"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/signup_tablayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/colorWhite"
+            app:tabMode="fixed"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.8"
+            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabTextColor="@color/colorWhite" />
+    </LinearLayout>
+
+    <com.capstone.android.instatour.src.signup.NonSwipeableViewPager
+        android:id="@+id/signup_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"/>
 </LinearLayout>
