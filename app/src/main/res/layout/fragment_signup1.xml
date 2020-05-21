@@ -18,7 +18,7 @@
         android:letterSpacing="0.1"
         android:text="회원정보를"
         android:textColor="@color/colorWhite"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textStyle="bold" />
     <TextView
         android:layout_width="wrap_content"
@@ -68,8 +68,8 @@
         android:includeFontPadding="false"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
         android:background="@drawable/signup_radius_background"
         android:fontFamily="@font/nanum_extra_bold"
         android:textColor="@color/colorWhite"

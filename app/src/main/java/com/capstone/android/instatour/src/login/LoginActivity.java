@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.BaseActivity;
 import com.capstone.android.instatour.src.main.MainActivity;
+import com.capstone.android.instatour.src.signup.SignupActivity;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
@@ -58,7 +59,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.login_btn:
                 break;
             case R.id.login_to_signup_tv:
-
+                Intent intent = new Intent(this, SignupActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
             case R.id.login_to_search_tv:
                 Toast.makeText(activity, "서비스 기획 중입니다.", Toast.LENGTH_SHORT).show();

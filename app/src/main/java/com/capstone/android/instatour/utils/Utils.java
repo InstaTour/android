@@ -15,4 +15,9 @@ public class Utils {
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.YEAR)+"."+String.valueOf(cal.get(Calendar.MONTH)+1)+"."+cal.get(Calendar.DATE);
     }
+
+    public static String getNowMilliSecond() {
+        Calendar calendar = Calendar.getInstance();
+        return String.valueOf(calendar.getTimeInMillis());
+    }
 }

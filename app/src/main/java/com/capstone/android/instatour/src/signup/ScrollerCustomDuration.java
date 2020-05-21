@@ -35,3 +35,4 @@ public class ScrollerCustomDuration extends Scroller {
     }
 
 }
+// 스크롤 속도 늦추게 하기 위해

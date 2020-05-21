@@ -18,7 +18,7 @@
         android:letterSpacing="0.1"
         android:text="캐릭터를"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/mainTopBigDimen"
+        android:textSize="25dp"
         android:textStyle="bold" />
     <TextView
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:letterSpacing="0.1"
         android:text="설정해주세요."
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/mainTopBigDimen"
+        android:textSize="25dp"
         />
 
     <ImageView
@@ -38,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
         android:onClick="onClick"
         android:background="@drawable/main_item_radius_shoadow_background"/>
 
@@ -61,8 +62,8 @@
         android:includeFontPadding="false"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
         android:background="@drawable/signup_radius_background"
         android:fontFamily="@font/nanum_extra_bold"
         android:textColor="@color/colorWhite"

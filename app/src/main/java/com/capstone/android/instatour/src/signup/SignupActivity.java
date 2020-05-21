@@ -24,7 +24,7 @@ import com.capstone.android.instatour.src.main.MainActivity;
 public class SignupActivity extends BaseActivity implements View.OnClickListener {
 
     private TabLayout mTabLayout;
-    private String eamil, name, password;
+    private String eamil, name, password, url;
     private SignupInterface mSignupInterface = new SignupInterface() {
         @Override
         public void email(String text) {
@@ -40,6 +40,13 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         public void password(String text) {
             password = text;
             mTabLayout.getTabAt(1).select();
+        }
+
+        @Override
+        public void imgUrl(String text) {
+            url = text;
+
+            signup();
         }
     };
     public static NonSwipeableViewPager mViewPagerSignUp;
@@ -62,7 +69,7 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
 
     public void initTab() {
         mTabLayout.addTab(mTabLayout.newTab().setText("기본정보입력"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("캐릭터입력"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("캐릭터선택"));
 
         LinearLayout tabStrip = ((LinearLayout)mTabLayout.getChildAt(0));
         tabStrip.setEnabled(false);
@@ -109,5 +116,11 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public void signup() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
     }
 }

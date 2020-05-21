@@ -77,8 +77,10 @@ public class Signup3Fragment extends Fragment {
     private static final String TAG = MainActivity.class.getSimpleName();
     private File tmpFile;
     private ImageView mIvPicture;
+    private SignupInterface signupInterface;
 
     public Signup3Fragment(SignupInterface signupInterface) {
+        this.signupInterface = signupInterface;
     }
 
     private DialogImageSelectInterface mCameraInterface = new DialogImageSelectInterface() {
@@ -333,13 +335,17 @@ public class Signup3Fragment extends Fragment {
     // content uri parse to real uri path
 
     public void uploadFileToS3() {
+        if(savingUri == null) {
+            signupInterface.imgUrl(null);
+        }
         AWSCredentials awsCredentials = new BasicAWSCredentials(getString(R.string.ACCESS_KEY), getString(R.string.SECRET_KEY));
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(activity).build();
         TransferNetworkLossHandler.getInstance(activity);
 
         TransferObserver uploadObserver = null;
-        uploadObserver = transferUtility.upload("instatour-image/profile", Utils.getNowByTimeStamp() + String.valueOf("profile") + ".png", new File(savingUri.getPath()), CannedAccessControlList.PublicRead);
+        String time = Utils.getNowMilliSecond();
+        uploadObserver = transferUtility.upload("instatour-image/profile", time + String.valueOf("profile") + ".png", new File(savingUri.getPath()), CannedAccessControlList.PublicRead);
 
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
@@ -347,7 +353,8 @@ public class Signup3Fragment extends Fragment {
                 Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
 
                 if (state == TransferState.COMPLETED) {
-                    activity.finish();
+                    String url = s3Client.getResourceUrl("instatour-image/profile", time + String.valueOf("profile") + ".png");
+                    signupInterface.imgUrl(url);
                 }
 
             }

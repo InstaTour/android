@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.BaseActivity;
+import com.capstone.android.instatour.src.login.LoginActivity;
 import com.capstone.android.instatour.src.main.MainActivity;
 
 public class SplashActivity extends BaseActivity {
@@ -35,7 +36,7 @@ public class SplashActivity extends BaseActivity {
 //                    finish();
 //                }
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
