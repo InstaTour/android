@@ -186,6 +186,7 @@ public class Signup3Fragment extends Fragment {
         try {
             photoFile = createImageFile();
         } catch (IOException e) {
+            Log.i("SDVSVDSD", e.getMessage());
             Toast.makeText(activity, R.string.review_edit_image_error, Toast.LENGTH_SHORT).show();
         }
         if (photoFile != null) {
@@ -225,7 +226,7 @@ public class Signup3Fragment extends Fragment {
         // when press back selecting camera
 
         if (resultCode != RESULT_OK) {
-            Toast.makeText(activity, "이미지 처리 오류! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "이미지 처리 오류! 다시 시도해주세요1.", Toast.LENGTH_SHORT).show();
 
             if (tmpFile != null) {
                 if (tmpFile.exists()) {
@@ -298,7 +299,8 @@ public class Signup3Fragment extends Fragment {
             try {
                 tmpFile = createImageFile();
             } catch (IOException e) {
-                Toast.makeText(activity, "이미지 처리 오류! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                Log.i("VDSDSVSDV", e.getMessage());
+                Toast.makeText(activity, "이미지 처리 오류! 다시 시도해주세요.2", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -337,6 +339,7 @@ public class Signup3Fragment extends Fragment {
     public void uploadFileToS3() {
         if(savingUri == null) {
             signupInterface.imgUrl(null);
+            return;
         }
         AWSCredentials awsCredentials = new BasicAWSCredentials(getString(R.string.ACCESS_KEY), getString(R.string.SECRET_KEY));
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));

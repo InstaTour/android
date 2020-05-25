@@ -3,7 +3,11 @@ package com.capstone.android.instatour.src;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
 import com.capstone.android.instatour.config.XAccessTokenInterceptor;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +41,8 @@ public class ApplicationClass extends Application {
     // Retrofit 인스턴스
     public static Retrofit retrofit;
 
+    public static Context applicationContext;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,6 +50,9 @@ public class ApplicationClass extends Application {
         if (sSharedPreferences == null) {
             sSharedPreferences = getApplicationContext().getSharedPreferences(TAG, Context.MODE_PRIVATE);
         }
+
+        applicationContext = getApplicationContext();
+//        AWSINit();
     }
 
     public static String httpChange(String http) {
@@ -60,8 +69,9 @@ public class ApplicationClass extends Application {
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             OkHttpClient client = new OkHttpClient.Builder()
-                    .readTimeout(5000, TimeUnit.MILLISECONDS)
-                    .connectTimeout(5000, TimeUnit.MILLISECONDS)
+                    .connectTimeout(1, TimeUnit.MINUTES)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(15, TimeUnit.SECONDS)
                     .addNetworkInterceptor(new XAccessTokenInterceptor()) // JWT 자동 헤더 전송
                     .build();
 
@@ -71,7 +81,23 @@ public class ApplicationClass extends Application {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-
         return retrofit;
     }
+
+//    public static void AWSINit() {
+//        AWSMobileClient.getInstance().initialize(applicationContext, new Callback<UserStateDetails>() {
+//
+//                    @Override
+//                    public void onResult(UserStateDetails userStateDetails) {
+//                        Log.i("INIT", "onResult: " + userStateDetails.getUserState());
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//                        Log.e("INIT", "Initialization error.", e);
+//                    }
+//                }
+//        );
+//    }
+
 }

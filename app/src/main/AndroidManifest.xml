@@ -7,12 +7,12 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
@@ -28,6 +28,7 @@
         tools:targetApi="n"
         tools:replace="android:appComponentFactory"
         android:appComponentFactory="whateverString"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.capstone.android.instatour.src.splash.SplashActivity"
@@ -39,13 +40,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".src.main.MainActivity"/>
         <activity android:name=".src.search.SearchActivity"/>
         <activity android:name=".src.search_detail.SearchDetailActivity"/>
         <activity android:name=".src.detail_posting.DetailPostingPostingActivity"/>
         <activity android:name=".src.edit_posting.EditPostingActivity"/>
         <activity android:name=".src.login.LoginActivity"/>
         <activity android:name=".src.signup.SignupActivity"/>
+        <activity android:name=".src.main.MainActivity"/>
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

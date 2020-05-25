@@ -34,6 +34,7 @@ public class Signup1Fragment extends Fragment {
             if(checkValidation()) {
                 SignupActivity.mViewPagerSignUp.setCurrentItem(1);
                 signupInterface.email(mEtEmail.getText().toString());
+                signupInterface.name(mEtName.getText().toString());
             }
         });
         return  view;

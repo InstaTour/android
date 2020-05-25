@@ -18,8 +18,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion = '29.0.1'
 }
@@ -58,8 +58,15 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     /* Room Library */
 
-    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.5'
-    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.5'
-    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.5'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.16.2'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.16.2'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.12'
     /* AWS Library */
+
+    //For the drop-in UI also:
+    implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.12'
+    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.16.12'
+
+//For hosted UI also:
+    implementation 'com.amazonaws:aws-android-sdk-cognitoauth:2.16.12'
 }
