@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.capstone.android.instatour.src.BaseActivity;
 import com.capstone.android.instatour.src.detail_posting.adapters.DetailPostingImageAdapter;
 import com.capstone.android.instatour.src.detail_posting.adapters.DetailPostingRelatedAdapter;
 import com.capstone.android.instatour.src.detail_posting.interfaces.DetailPostingActivityView;
+import com.capstone.android.instatour.src.detail_posting.models.DetailPostResponse;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
     private RecyclerView mRVRelate;
     private DetailPostingImageAdapter mImageAdapter;
     private DetailPostingRelatedAdapter mRelatedAdpater;
+    private LinearLayout mLayoutWriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,8 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
         initViews();
         init();
         initAdpater();
-        tryGetTest();
+
+        getDetailPost();
     }
 
     public void initAdpater() {
@@ -78,30 +82,70 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
         mIvNickname = findViewById(R.id.detail_posting_user_iv);
         mIvFirst = findViewById(R.id.detail_posting_first_iv);
         mIvSecond = findViewById(R.id.detail_posting_second_iv);
+        mTvLocation = findViewById(R.id.detail_posting_location_tv);
+        mTvSection = findViewById(R.id.detail_posting_section_tv);
+        mTvReviewCount = findViewById(R.id.detail_posting_star_count_tv);
+        mTvContent = findViewById(R.id.detail_posting_content_tv);
+        mTvDate = findViewById(R.id.detail_posting_date_tv);
+        mTvNickname = findViewById(R.id.detail_posting_nickname_tv);
+        mTvPostingCount = findViewById(R.id.detail_posting_post_count_tv);
+        mIvStars = findViewById(R.id.detail_posting_star_iv);
+//        mLayoutWriter = findViewById(R.id.detail_posting_writer_layout);
     }
 
-    private void tryGetTest() {
+    private void getDetailPost() {
         showProgressDialog();
 
         final DetailPostingService mainService = new DetailPostingService(this);
-        mainService.getTest();
+        mainService.getDetailPost(getIntent().getStringExtra("id"));
     }
 
     @Override
-    public void validateSuccess(ArrayList<String> list) {
+    public void validateDetailPostSuccess(DetailPostResponse response) {
         hideProgressDialog();
 
-        mRelatedAdpater.setListData(list);
-        mRelatedAdpater.notifyDataSetChanged();
-
-        mImageAdapter.setListData(list);
+        mImageAdapter.setListData(response.getData().getPost().getImgList());
         mImageAdapter.notifyDataSetChanged();
 
-        drawerCircleImage(httpChange(list.get(0).toString()));
+        mRelatedAdpater.setListData(response.getData().getPost().getImgList());
+        mRelatedAdpater.notifyDataSetChanged();
+
+        mTvLocation.setText(getIntent().getStringExtra("location"));
+        mTvSection.setText(getIntent().getStringExtra("section"));
+        mTvDate.setText(response.getData().getPost().getDate().substring(0, 9));
+        mTvContent.setText(response.getData().getPost().getContent());
+
+        if(response.getData().getAvgRates() ==0) {
+            mIvStars.setBackgroundResource(R.drawable.star_0_img);
+        }
+        else if(response.getData().getAvgRates() ==1) {
+            mIvStars.setBackgroundResource(R.drawable.star_1_img);
+        }
+        else if(response.getData().getAvgRates() ==2) {
+            mIvStars.setBackgroundResource(R.drawable.star_2_img);
+        }
+        else if(response.getData().getAvgRates() ==3) {
+            mIvStars.setBackgroundResource(R.drawable.star_3_img);
+        }
+        else if(response.getData().getAvgRates() ==4) {
+            mIvStars.setBackgroundResource(R.drawable.star_4_img);
+        }
+        else if(response.getData().getAvgRates() ==5) {
+            mIvStars.setBackgroundResource(R.drawable.star_5_img);
+        }
+        mTvReviewCount.setText(String.valueOf(response.getData().getReviews())+" reviews");
+        if(response.getData().getWriter() != null) {
+            drawerCircleImage(httpChange(response.getData().getWriter().getProfile()));
+            mTvNickname.setText(response.getData().getWriter().getNickname()+" 님");
+            mTvPostingCount.setText("포스팅 "+String.valueOf(response.getData().getWriter().getPosting()));
+        }
+        else {
+//            mLayoutWriter.setVisibility(View.GONE);
+        }
     }
 
     @Override
-    public void validateFailure(@Nullable String message) {
+    public void validateDetailPostFailure(String message) {
         hideProgressDialog();
         showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
     }

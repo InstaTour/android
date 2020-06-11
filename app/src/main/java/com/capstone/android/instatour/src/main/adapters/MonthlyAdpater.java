@@ -1,6 +1,7 @@
 package com.capstone.android.instatour.src.main.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.main.models.MainTopClickHashTagResponse;
+import com.capstone.android.instatour.src.search_detail.SearchDetailActivity;
 
 import java.util.ArrayList;
 
@@ -83,6 +85,15 @@ public class MonthlyAdpater extends RecyclerView.Adapter<MonthlyAdpater.ItemView
             name = itemView.findViewById(R.id.item_monthly_name_tv);
             views = itemView.findViewById(R.id.item_monthly_view_count_tv);
             count = itemView.findViewById(R.id.item_monthly_num_tv);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, SearchDetailActivity.class);
+                    intent.putExtra("location", listData.get(getAdapterPosition()).getId());
+                    activity.startActivity(intent);
+                }
+            });
         }
 
         void onBind(MainTopClickHashTagResponse data) {

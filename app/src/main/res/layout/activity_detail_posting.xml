@@ -83,19 +83,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/detail_posting_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="@dimen/detailPostingVerticalSmallDimen"
-                android:fontFamily="@font/nanum_extra_bold"
-                android:text="파리 사랑의 벽"
-                android:textColor="@color/colorBlack"
-                android:textSize="30dp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,7 +96,7 @@
                     android:layout_gravity="center_vertical"
                     android:baselineAligned="false"
                     android:scaleType="fitStart"
-                    android:src="@drawable/star_4_img" />
+                    tools:src="@drawable/star_4_img" />
 
                 <TextView
                     android:id="@+id/detail_posting_star_count_tv"

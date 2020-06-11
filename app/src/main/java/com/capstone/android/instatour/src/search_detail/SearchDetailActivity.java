@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,9 +22,12 @@ import androidx.viewpager2.widget.MarginPageTransformer;
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.BaseActivity;
+import com.capstone.android.instatour.src.detail_posting.DetailPostingPostingActivity;
 import com.capstone.android.instatour.src.edit_posting.EditPostingActivity;
 import com.capstone.android.instatour.src.search_detail.adapters.PostingAdapter;
+import com.capstone.android.instatour.src.search_detail.interfaces.CallbackInterface;
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailActivityView;
+import com.capstone.android.instatour.src.search_detail.models.SearchDetailResponse;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
 import com.google.android.material.navigation.NavigationView;
 
@@ -38,8 +42,18 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     private RecyclerView mRVPosting;
     private PostingAdapter mPostingAdpater;
     private Activity activity;
-
-    private String section;
+    private String location, section;
+    private CallbackInterface callbackInterface = new CallbackInterface() {
+        @Override
+        public void click(String id) {
+            Intent intent = new Intent(activity, DetailPostingPostingActivity.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("location", location);
+                    intent.putExtra("section", section);
+                    activity.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +63,12 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
         initViews();
         init();
         initAdpater();
-        tryGetTest();
+        getPost();
     }
 
     public void init() {
         activity = this;
-        mTvRelated.setText("#test1 #test2 #test3 #test4 #test5 #test6 #test7 #test1 #test2 #test3 #test4 #test5 #test6 #test7");
-        mTvRelated.setMovementMethod((new ScrollingMovementMethod()));
+        location = getIntent().getStringExtra("location");
         section = "SEC_ALL";
 
         mTvLocation.setText(getIntent().getStringExtra("location"));
@@ -75,15 +88,15 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
 
     public void initAdpater() {
         mRVPosting.setLayoutManager(new GridLayoutManager(this, 3));
-        mPostingAdpater = new PostingAdapter(this);
+        mPostingAdpater = new PostingAdapter(this, callbackInterface);
         mRVPosting.setAdapter(mPostingAdpater);
     }
 
-    private void tryGetTest() {
+    private void getPost() {
         showProgressDialog();
 
         final SearchDetailService mainService = new SearchDetailService(this);
-        mainService.getTest();
+        mainService.getSearch(location, section, 0, 30);
     }
 
     @Override
@@ -105,13 +118,30 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     }
 
     @Override
-    public void validateSuccess(ArrayList<String> list) {
+    public void validateSuccess(SearchDetailResponse response) {
         hideProgressDialog();
 
-        mPostingAdpater.setListData(list);
-        mPostingAdpater.notifyDataSetChanged();
+        String tmp = "";
+        if(response.getData() == null) {
+            return;
+        }
+        if(response.getData().getRelatives() != null) {
+            for(int i=0;i<response.getData().getRelatives().size();i++) {
+                tmp= tmp + "#" + response.getData().getRelatives().get(i) + " ";
+            }
+            mTvRelated.setText(tmp);
+            mTvRelated.setMovementMethod((new ScrollingMovementMethod()));
+        }
 
-        drawerCircleImage(httpChange(list.get(0).toString()));
+        mTvDetailCount.setText(String.valueOf(response.getData().getNum()));
+        mTvAboutCount.setText(String.valueOf(response.getData().getApx_num()));
+
+        if(response.getData().getPosts().get(0) != null) {
+            drawerCircleImage(response.getData().getPosts().get(0).getImgUrl().get(0));
+        }
+
+        mPostingAdpater.setListData(response.getData().getPosts());
+        mPostingAdpater.notifyDataSetChanged();
     }
 
     @Override

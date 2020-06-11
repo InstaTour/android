@@ -3,6 +3,7 @@ package com.capstone.android.instatour.src.search_detail;
 
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailActivityView;
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailRetrofitInterface;
+import com.capstone.android.instatour.src.search_detail.models.SearchDetailResponse;
 import com.capstone.android.instatour.src.search_detail.models.TestResponse;
 
 import retrofit2.Call;
@@ -18,23 +19,24 @@ class SearchDetailService {
         this.mSearchDetailActivityView = searchDetailActivityView;
     }
 
-    void getTest() {
+
+    void getSearch(String location, String section, int skip, int limit) {
         final SearchDetailRetrofitInterface searchDetailRetrofitInterface = getRetrofit().create(SearchDetailRetrofitInterface.class);
 
-        searchDetailRetrofitInterface.getTestPost().enqueue(new Callback<TestResponse>() {
+        searchDetailRetrofitInterface.getPosts(location, section, skip, limit).enqueue(new Callback<SearchDetailResponse>() {
             @Override
-            public void onResponse(Call<TestResponse> call, Response<TestResponse> response) {
-                final TestResponse defaultResponse = response.body();
+            public void onResponse(Call<SearchDetailResponse> call, Response<SearchDetailResponse> response) {
+                final SearchDetailResponse defaultResponse = response.body();
                 if (defaultResponse == null) {
                     mSearchDetailActivityView.validateFailure(null);
                     return;
                 }
 
-                mSearchDetailActivityView.validateSuccess(defaultResponse.getData().getData());
+                mSearchDetailActivityView.validateSuccess(defaultResponse);
             }
 
             @Override
-            public void onFailure(Call<TestResponse> call, Throwable t) {
+            public void onFailure(Call<SearchDetailResponse> call, Throwable t) {
                 mSearchDetailActivityView.validateFailure(null);
             }
         });

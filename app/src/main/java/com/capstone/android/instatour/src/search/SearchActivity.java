@@ -106,6 +106,7 @@ public class SearchActivity extends BaseActivity {
             case R.id.search_search_iv:
                 insert();
                 Intent intent = new Intent(this, SearchDetailActivity.class);
+                intent.putExtra("location", mEtSearch.getText().toString());
                 startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;

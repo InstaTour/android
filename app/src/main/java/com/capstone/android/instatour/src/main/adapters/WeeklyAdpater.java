@@ -1,6 +1,7 @@
 package com.capstone.android.instatour.src.main.adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.main.models.MainTopClickHashTagResponse;
+import com.capstone.android.instatour.src.search_detail.SearchDetailActivity;
 
 import java.util.ArrayList;
 
@@ -87,6 +89,15 @@ public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHo
             related2 = itemView.findViewById(R.id.item_week_related2_tv);
             related3 = itemView.findViewById(R.id.item_week_related3_tv);
             related4 = itemView.findViewById(R.id.item_week_related4_tv);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(activity, SearchDetailActivity.class);
+                    intent.putExtra("location", listData.get(getAdapterPosition()).getId());
+                    activity.startActivity(intent);
+                }
+            });
         }
 
         void onBind(MainTopClickHashTagResponse data) {
