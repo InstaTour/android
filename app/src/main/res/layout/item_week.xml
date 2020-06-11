@@ -110,6 +110,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/item_week_related1_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
@@ -121,6 +122,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/item_week_related2_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
@@ -132,6 +134,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/item_week_related3_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
@@ -143,6 +146,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/item_week_related4_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nanum_regular"

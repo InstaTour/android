@@ -3,7 +3,8 @@ package com.capstone.android.instatour.src.splash;
 
 import com.capstone.android.instatour.src.splash.interfaces.SplashActivityView;
 import com.capstone.android.instatour.src.splash.interfaces.SplashRetrofitInterface;
-import com.capstone.android.instatour.src.splash.models.TestResponse;
+import com.capstone.android.instatour.src.splash.models.SplashResponse;
+import com.capstone.android.instatour.src.splash.models.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -11,30 +12,30 @@ import retrofit2.Response;
 
 import static com.capstone.android.instatour.src.ApplicationClass.getRetrofit;
 
-class SplashDetailService {
+class SplashService {
     private final SplashActivityView mSplashActivityView;
 
-    SplashDetailService(final SplashActivityView splashActivityView) {
+    SplashService(final SplashActivityView splashActivityView) {
         this.mSplashActivityView = splashActivityView;
     }
 
-    void getTest() {
+    void getTokenUser() {
         final SplashRetrofitInterface splashRetrofitInterface = getRetrofit().create(SplashRetrofitInterface.class);
 
-        splashRetrofitInterface.getTestPost().enqueue(new Callback<TestResponse>() {
+        splashRetrofitInterface.getUser().enqueue(new Callback<SplashResponse>() {
             @Override
-            public void onResponse(Call<TestResponse> call, Response<TestResponse> response) {
-                final TestResponse defaultResponse = response.body();
-                if (defaultResponse == null) {
+            public void onResponse(Call<SplashResponse> call, Response<SplashResponse> response) {
+                final SplashResponse splashResponse = response.body();
+                if (splashResponse == null) {
                     mSplashActivityView.validateFailure(null);
                     return;
                 }
 
-                mSplashActivityView.validateSuccess(defaultResponse.getData().getData());
+                mSplashActivityView.validateSuccess(splashResponse);
             }
 
             @Override
-            public void onFailure(Call<TestResponse> call, Throwable t) {
+            public void onFailure(Call<SplashResponse> call, Throwable t) {
                 mSplashActivityView.validateFailure(null);
             }
         });

@@ -32,6 +32,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"/>
             <TextView
+                android:id="@+id/item_monthly_view_count_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -44,6 +45,7 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/item_monthly_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorBlack"
@@ -58,6 +60,7 @@
         />
 
     <TextView
+        android:id="@+id/item_monthly_num_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorGrey"

@@ -16,7 +16,7 @@ import com.capstone.android.instatour.src.signup.SignupActivity;
 import com.capstone.android.instatour.src.signup.interfaces.SignupInterface;
 
 public class Signup1Fragment extends Fragment {
-    private EditText mEtEmail, mEtName;
+    private EditText mEtEmail, mEtName, mEtId;
     private  SignupInterface signupInterface;
     public Signup1Fragment(SignupInterface signupInterface) {
         this.signupInterface = signupInterface;
@@ -33,6 +33,7 @@ public class Signup1Fragment extends Fragment {
         view.findViewById(R.id.fragment_signup1_next_btn).setOnClickListener(view1 -> {
             if(checkValidation()) {
                 SignupActivity.mViewPagerSignUp.setCurrentItem(1);
+                signupInterface.id(mEtId.getText().toString());
                 signupInterface.email(mEtEmail.getText().toString());
                 signupInterface.name(mEtName.getText().toString());
             }
@@ -45,10 +46,15 @@ public class Signup1Fragment extends Fragment {
     public void setComponentView(View view) {
         mEtEmail = view.findViewById(R.id.fragment_signup1_email_et);
         mEtName = view.findViewById(R.id.fragment_signup1_name_et);
+        mEtId = view.findViewById(R.id.fragment_signup1_id_et);
     }
 
     public boolean checkValidation() {
-        if(mEtEmail.getText().length() == 0) {
+        if(mEtId.getText().length() == 0) {
+            Toast.makeText(getActivity(), "아이드를 입려해주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(mEtEmail.getText().length() == 0) {
             Toast.makeText(getActivity(), "이메일을 입려해주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }

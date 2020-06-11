@@ -2,18 +2,25 @@ package com.capstone.android.instatour.src.splash.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TestResponse {
+public class SplashResponse {
     @SerializedName("message")
     private String message;
 
+    @SerializedName("code")
+    private int code;
+
     @SerializedName("data")
-    private TestImageResponse data;
+    private DataResponse data;
 
     public String getMessage() {
         return message;
     }
 
-    public TestImageResponse getData() {
+    public DataResponse getData() {
         return data;
+    }
+
+    public int getCode() {
+        return code;
     }
 }

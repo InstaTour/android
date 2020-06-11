@@ -1,7 +1,9 @@
 package com.capstone.android.instatour.src.signup;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,6 +16,8 @@ import com.amazonaws.mobile.client.Callback;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.client.results.SignUpResult;
 import com.amazonaws.mobile.client.results.UserCodeDeliveryDetails;
+import com.capstone.android.instatour.src.ApplicationClass;
+import com.capstone.android.instatour.src.login.LoginActivity;
 import com.capstone.android.instatour.src.main.MainActivity;
 import com.capstone.android.instatour.src.search.SearchActivity;
 import com.capstone.android.instatour.src.signup.adapters.SignupFragmentAdapter;
@@ -31,13 +35,20 @@ import com.capstone.android.instatour.src.BaseActivity;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.capstone.android.instatour.src.ApplicationClass.X_ACCESS_TOKEN;
+
 public class SignupActivity extends BaseActivity implements View.OnClickListener {
 
     private TabLayout mTabLayout;
-    private String email, name, password, url;
+    private String ID, email, name, password, url;
     private  Activity activity;
 
     private SignupInterface mSignupInterface = new SignupInterface() {
+        @Override
+        public void id(String text) {
+            ID = text;
+        }
+
         @Override
         public void email(String text) {
             email = text;
@@ -74,20 +85,6 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         initTab();
 
         activity = this;
-
-        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-
-                    @Override
-                    public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("INIT", "onResult: " + userStateDetails.getUserState());
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("INIT", "Initialization error.", e);
-                    }
-                }
-        );
     }
 
     public void initAdapter() {
@@ -146,21 +143,20 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-//    username
-//            password
-//    email
-//            nickname
-//    profile
-
     public void signup() {
-        final String username = email;
+        showProgressDialog();
+
+        final String username = ID;
         final String pw = password;
         final Map<String, String> attributes = new HashMap<>();
         attributes.put("email", email);
         attributes.put("nickname", name);
+        if(url == null) {
+            url = "null";
+        }
         attributes.put("profile", url);
 
-        AWSMobileClient.getInstance().signUp(username, password, attributes, null, new Callback<SignUpResult>() {
+        AWSMobileClient.getInstance().signUp(username, pw, attributes, null, new Callback<SignUpResult>() {
             @Override
             public void onResult(final SignUpResult signUpResult) {
                 runOnUiThread(new Runnable() {
@@ -171,12 +167,27 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
                             final UserCodeDeliveryDetails details = signUpResult.getUserCodeDeliveryDetails();
                             Toast.makeText(SignupActivity.this, details.getDestination(), Toast.LENGTH_SHORT).show();
                         } else {
+                            String jwt = null;
+                            try {
+                                jwt = AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
+                                Log.i("SIGNUPJWT", jwt);
+                            } catch (Exception e) {
+                                Log.i("SIGNUPEXCEPTION", e.getMessage());
+                                e.printStackTrace();
+                            }
+                            SharedPreferences mSharedPreferences1 = getSharedPreferences(ApplicationClass.TAG, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor1 = mSharedPreferences1.edit();
+                            editor1.putString(X_ACCESS_TOKEN, jwt);
+                            editor1.commit();
 
-                            Intent intent = new Intent(activity, MainActivity.class);
+                            hideProgressDialog();
+
+                            Toast.makeText(activity, "회원가입을 성공하였습니다", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(activity, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                             overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
-
-                            Toast.makeText(SignupActivity.this, "ELSE", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -188,15 +199,12 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        hideProgressDialog();
                         Toast.makeText(SignupActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 Log.e("AWSAWSLOGIN", "Sign-up error", e);
             }
         });
-
-//        Intent intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
     }
 }

@@ -2,7 +2,9 @@ package com.capstone.android.instatour.src.login;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,9 +19,12 @@ import com.amazonaws.mobile.client.Callback;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.client.results.SignInResult;
 import com.capstone.android.instatour.R;
+import com.capstone.android.instatour.src.ApplicationClass;
 import com.capstone.android.instatour.src.BaseActivity;
 import com.capstone.android.instatour.src.main.MainActivity;
 import com.capstone.android.instatour.src.signup.SignupActivity;
+
+import static com.capstone.android.instatour.src.ApplicationClass.X_ACCESS_TOKEN;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
@@ -34,20 +39,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         initViews();
         initPw();
         init();
-        
-        AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
-
-                    @Override
-                    public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("INIT", "onResult: " + userStateDetails.getUserState());
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("INIT", "Initialization error.", e);
-                    }
-                }
-        );
     }
 
     public void init() {
@@ -55,19 +46,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void initPw() {
-        mEtPW.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+        mEtPW.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    Intent intent = new Intent(activity, MainActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+               signIn();
 
-                    return true;
-                }
-                return false;
+                return true;
             }
+            return false;
         });
     }
 
@@ -96,42 +82,51 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void signIn() {
+        showProgressDialog();
         AWSMobileClient.getInstance().signIn(mEtEmail.getText().toString(), mEtPW.getText().toString(), null, new Callback<SignInResult>() {
             @Override
             public void onResult(final SignInResult signInResult) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d("LOGLOG", "Sign-in callback state: " + signInResult.getSignInState());
-                        switch (signInResult.getSignInState()) {
-                            case DONE:
-                                makeToast("Sign-in done.");
-                                Intent intent = new Intent(activity, MainActivity.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
-                                break;
-                            case SMS_MFA:
-                                makeToast("Please confirm sign-in with SMS.");
-                                break;
-                            case NEW_PASSWORD_REQUIRED:
-                                makeToast("Please confirm sign-in with new password.");
-                                break;
-                            default:
-                                makeToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
-                                break;
-                        }
+                runOnUiThread(() -> {
+                    hideProgressDialog();
+
+                    switch (signInResult.getSignInState()) {
+                        case DONE:
+                            String jwt = null;
+                            try {
+                                jwt = AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            SharedPreferences mSharedPreferences1 = getSharedPreferences(ApplicationClass.TAG, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor1 = mSharedPreferences1.edit();
+                            editor1.putString(X_ACCESS_TOKEN, jwt);
+                            editor1.commit();
+
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+                            finish();
+                            break;
+
+                        default:
+                            SharedPreferences mSharedPreferences = getSharedPreferences(ApplicationClass.TAG, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.remove(X_ACCESS_TOKEN);
+
+                            editor.commit();
+                            showCustomToast("Unsupported sign-in confirmation: " + signInResult.getSignInState());
+
+                            Toast.makeText(activity, "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            break;
                     }
                 });
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e("LOGLOG", "Sign-in error", e);
+                hideProgressDialog();
+                Log.e("LoginError", e.getMessage());
             }
         });
-    }
-
-    public void makeToast(String text) {
-        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
     }
 }

@@ -68,15 +68,15 @@
 
                             <ImageView
                                 android:id="@+id/main_drawer_second_iv"
-                                android:layout_width="47dp"
-                                android:layout_height="47dp"
+                                android:layout_width="45dp"
+                                android:layout_height="45dp"
                                 android:layout_gravity="center"
                                 />
 
                             <ImageView
                                 android:id="@+id/main_drawer_user_iv"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
                                 android:layout_gravity="center" />
                         </FrameLayout>
 
@@ -184,10 +184,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_regular"
                     android:includeFontPadding="false"
-                    android:text="내 정보"
+                    android:text="로그 아웃"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="@dimen/drawerItemVerticalDimen"
                     android:textSize="16dp"
+                    android:onClick="onClick"
                     />
 
                 <TextView
@@ -196,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_regular"
                     android:includeFontPadding="false"
-                    android:text="찜 목록"
+                    android:text="내 정보"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="@dimen/drawerItemVerticalDimen"
                     android:textSize="16dp"
@@ -208,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_regular"
                     android:includeFontPadding="false"
-                    android:text="글 관리"
+                    android:text="찜 목록"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="@dimen/drawerItemVerticalDimen"
                     android:textSize="16dp"

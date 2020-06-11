@@ -94,12 +94,20 @@ public class ReviewerAdapter extends RecyclerView.Adapter<ReviewerAdapter.ItemVi
                     .circleCrop()
                     .into(bkg2);
 
-
-            Glide.with(activity)
-                    .load(httpChange(data))
-                    .fitCenter()
-                    .circleCrop()
-                    .into(image);
+            if(data.equals("null") || data.equals("")) {
+                Glide.with(activity)
+                        .load(R.drawable.instatour_logo_img)
+                        .fitCenter()
+                        .circleCrop()
+                        .into(image);
+            }
+            else {
+                Glide.with(activity)
+                        .load(httpChange(data))
+                        .fitCenter()
+                        .circleCrop()
+                        .into(image);
+            }
         }
         // set views
     }

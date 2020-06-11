@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.capstone.android.instatour.R;
+import com.capstone.android.instatour.src.main.models.MainTopClickHashTagResponse;
 
 import java.util.ArrayList;
 
@@ -23,7 +25,7 @@ import static com.capstone.android.instatour.src.ApplicationClass.httpChange;
 public class MonthlyAdpater extends RecyclerView.Adapter<MonthlyAdpater.ItemViewHolder> {
 
     private Activity activity;
-    private ArrayList<String> listData = new ArrayList<>();
+    private ArrayList<MainTopClickHashTagResponse> listData = new ArrayList<>();
 
     public MonthlyAdpater(Activity activity) {
         this.activity = activity;
@@ -31,11 +33,11 @@ public class MonthlyAdpater extends RecyclerView.Adapter<MonthlyAdpater.ItemView
     // constructor
 
 
-    public void setListData(ArrayList<String> listData) {
+    public void setListData(ArrayList<MainTopClickHashTagResponse> listData) {
         this.listData = listData;
     }
 
-    public ArrayList<String> getListData() {
+    public ArrayList<MainTopClickHashTagResponse> getListData() {
         return listData;
     }
 
@@ -43,7 +45,7 @@ public class MonthlyAdpater extends RecyclerView.Adapter<MonthlyAdpater.ItemView
         this.listData.clear();
     }
 
-    public void addData(String data) {
+    public void addData(MainTopClickHashTagResponse data) {
         listData.add(data);
     }
 
@@ -72,23 +74,29 @@ public class MonthlyAdpater extends RecyclerView.Adapter<MonthlyAdpater.ItemView
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView picture;
         private FrameLayout layout;
+        private TextView count, views, name;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             picture = itemView.findViewById(R.id.month_item_picture_iv);
             layout = itemView.findViewById(R.id.item_monthly_framelayout);
-
+            name = itemView.findViewById(R.id.item_monthly_name_tv);
+            views = itemView.findViewById(R.id.item_monthly_view_count_tv);
+            count = itemView.findViewById(R.id.item_monthly_num_tv);
         }
 
-        void onBind(String data) {
+        void onBind(MainTopClickHashTagResponse data) {
             int position = getAdapterPosition();
+
+            name.setText(data.getId());
+            views.setText(String.valueOf(data.getViews()));
+            count.setText("게시물 "+ String.valueOf(data.getApx_num()));
 
             layout.setBackground(activity.getDrawable(R.drawable.main_item_radius_shoadow_background));
             layout.setClipToOutline(true);
 
-
             Glide.with(activity)
-                    .load(httpChange(data))
+                    .load(httpChange(data.getImg_url()))
                     .fitCenter()
                     .apply(new RequestOptions().transform(new CenterCrop(), new RoundedCorners(16)))
                     .into(picture);

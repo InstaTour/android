@@ -23,7 +23,7 @@ public class ApplicationClass extends Application {
     public static MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
 
     // 테스트 서버 주소
-    public static String BASE_URL = "https://api.instatour.tech/";
+    public static String BASE_URL = "https://api.instatour.tech/v1/";
     // 실서버 주소
 //    public static String BASE_URL = "https://template.softsquared.com/";
 
@@ -42,6 +42,8 @@ public class ApplicationClass extends Application {
     public static Retrofit retrofit;
 
     public static Context applicationContext;
+
+    public static boolean AWS_MOBILE_INIT=false;
 
     @Override
     public void onCreate() {

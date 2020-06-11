@@ -39,6 +39,8 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     private PostingAdapter mPostingAdpater;
     private Activity activity;
 
+    private String section;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,9 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
         activity = this;
         mTvRelated.setText("#test1 #test2 #test3 #test4 #test5 #test6 #test7 #test1 #test2 #test3 #test4 #test5 #test6 #test7");
         mTvRelated.setMovementMethod((new ScrollingMovementMethod()));
+        section = "SEC_ALL";
+
+        mTvLocation.setText(getIntent().getStringExtra("location"));
     }
 
     @Override

@@ -81,6 +81,7 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
     private UriImageAdapter uriImageAdapter;
     private ViewPager2 mVP2Image;
     private int year, month, dates;
+    private  ArrayList<String> imgUrlList = new ArrayList<>();
 
     private DialogImageSelectInterface mCameraInterface = new DialogImageSelectInterface() {
         @Override
@@ -174,20 +175,6 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
                 break;
             case R.id.edit_posting_finish_btn:
                 uploadFileToS3();
-                break;
-
-            case R.id.edit_posting_date_tv:
-                DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int tmpYear, int tmpMonth, int tmpDayOfMonth) {
-
-                        year = tmpYear;
-                        month = tmpMonth;
-                        dates = tmpDayOfMonth;
-
-                    }
-                }, year, month, dates);
-                datePickerDialog.show();
                 break;
         }
     }
@@ -382,8 +369,10 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
         TransferNetworkLossHandler.getInstance(this);
 
         TransferObserver uploadObserver = null;
+        String time = Utils.getNowMilliSecond();
+
         for(int i=0;i<uriImageAdapter.getListData().size();i++){
-            uploadObserver = transferUtility.upload("instatour-image", Utils.getNowByTimeStamp()+String.valueOf(i)+".png", new File(uriImageAdapter.getListData().get(i).getPath()), CannedAccessControlList.PublicRead);
+            uploadObserver = transferUtility.upload("instatour-image", time+String.valueOf(i)+".png", new File(uriImageAdapter.getListData().get(i).getPath()), CannedAccessControlList.PublicRead);
 
         }
 
@@ -393,6 +382,8 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
                 Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
 
                 if(state == TransferState.COMPLETED) {
+                    String url = s3Client.getResourceUrl("instatour-image/profile", time + String.valueOf("profile") + ".png");
+
                     activity.finish();
                 }
 

@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
+import com.capstone.android.instatour.src.main.models.MainTopClickHashTagResponse;
+
 import java.util.ArrayList;
 
 import static com.capstone.android.instatour.src.ApplicationClass.httpChange;
@@ -20,7 +23,7 @@ import static com.capstone.android.instatour.src.ApplicationClass.httpChange;
 public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHolder> {
 
     private Activity activity;
-    private ArrayList<String> listData = new ArrayList<>();
+    private ArrayList<MainTopClickHashTagResponse> listData = new ArrayList<>();
 
     public WeeklyAdpater(Activity activity) {
         this.activity = activity;
@@ -28,11 +31,11 @@ public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHo
     // constructor
 
 
-    public void setListData(ArrayList<String> listData) {
+    public void setListData(ArrayList<MainTopClickHashTagResponse> listData) {
         this.listData = listData;
     }
 
-    public ArrayList<String> getListData() {
+    public ArrayList<MainTopClickHashTagResponse> getListData() {
         return listData;
     }
 
@@ -40,7 +43,7 @@ public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHo
         this.listData.clear();
     }
 
-    public void  addData(String data) {
+    public void  addData(MainTopClickHashTagResponse data) {
         listData.add(data);
     }
 
@@ -69,16 +72,34 @@ public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHo
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView picture;
         private LinearLayout layout, layout2;
+        private TextView views, count, name, related1, related2, related3, related4;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             picture = itemView.findViewById(R.id.item_week_image_iv);
             layout = itemView.findViewById(R.id.item_week_parent_layout);
             layout2 = itemView.findViewById(R.id.item_week_parent2_layout);
+            views = itemView.findViewById(R.id.item_week_view_count_tv);
+            count = itemView.findViewById(R.id.item_week_count_tv);
+            name = itemView.findViewById(R.id.item_week_location_tv);
+
+            related1 = itemView.findViewById(R.id.item_week_related1_tv);
+            related2 = itemView.findViewById(R.id.item_week_related2_tv);
+            related3 = itemView.findViewById(R.id.item_week_related3_tv);
+            related4 = itemView.findViewById(R.id.item_week_related4_tv);
         }
 
-        void onBind(String data) {
+        void onBind(MainTopClickHashTagResponse data) {
             int position = getAdapterPosition();
+
+            name.setText(data.getId());
+            views.setText(String.valueOf(data.getApx_num()));
+            count.setText("게시물 "+ String.valueOf(data.getApx_num()));
+
+            related1.setText(data.getRelatives().get(0));
+            related2.setText(data.getRelatives().get(1));
+            related3.setText(data.getRelatives().get(2));
+            related4.setText(data.getRelatives().get(3));
 
 
             layout.setBackground( (GradientDrawable) activity.getDrawable(R.drawable.main_item_radius_background));
@@ -92,7 +113,7 @@ public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHo
             // layer drawable는 gradient drawable로 cast 불 가능
 
             Glide.with(activity)
-                    .load(httpChange(data))
+                    .load(httpChange(data.getImg_url()))
                     .fitCenter()
                     .into(picture);
         }

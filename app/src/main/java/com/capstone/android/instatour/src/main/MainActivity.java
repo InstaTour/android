@@ -1,12 +1,15 @@
 package com.capstone.android.instatour.src.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -18,19 +21,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
+import com.capstone.android.instatour.src.ApplicationClass;
 import com.capstone.android.instatour.src.BaseActivity;
+import com.capstone.android.instatour.src.login.LoginActivity;
 import com.capstone.android.instatour.src.main.adapters.MonthlyAdpater;
 import com.capstone.android.instatour.src.main.adapters.ReviewerAdapter;
 import com.capstone.android.instatour.src.main.adapters.WeeklyAdpater;
 import com.capstone.android.instatour.src.main.interfaces.MainActivityView;
+import com.capstone.android.instatour.src.main.models.MainTopClickResponse;
+import com.capstone.android.instatour.src.main.models.MainTopReviewerResponse;
+import com.capstone.android.instatour.src.main.models.MainUserResponse;
 import com.capstone.android.instatour.src.search.SearchActivity;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
+import static com.capstone.android.instatour.src.ApplicationClass.X_ACCESS_TOKEN;
 import static com.capstone.android.instatour.src.ApplicationClass.httpChange;
 
 public class MainActivity extends BaseActivity implements MainActivityView {
@@ -41,6 +51,9 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     private ReviewerAdapter mReviewerAdapter;
     private Activity activity;
     private ImageView mIvFirst, mIvSecond, mIvNickname;
+    private Intent intent;
+
+    private TextView mTvDrawerName, mTvMainName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +65,10 @@ public class MainActivity extends BaseActivity implements MainActivityView {
         initAdpater();
         initHamburgerBar();
 
-        tryGetTest();
+        getUser();
+        getTopReviwer();
+        getTopMonthClick();
+        getTopWeekClick();
     }
 
     public void init() {
@@ -86,7 +102,10 @@ public class MainActivity extends BaseActivity implements MainActivityView {
         mReviewerRV = findViewById(R.id.main_view_reviwer_rv);
         mIvFirst = findViewById(R.id.main_drawer_first_iv);
         mIvSecond = findViewById(R.id.main_drawer_second_iv);
+
         mIvNickname = findViewById(R.id.main_drawer_user_iv);
+        mTvMainName = findViewById(R.id.main_view_nickname_tv);
+        mTvDrawerName = findViewById(R.id.main_drawer_nickname_tv);
     }
     public void initHamburgerBar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -124,30 +143,47 @@ public class MainActivity extends BaseActivity implements MainActivityView {
         }
     }
 
-    private void tryGetTest() {
+    private void getUser() {
         showProgressDialog();
 
         final MainService mainService = new MainService(this);
-        mainService.getTest();
+        mainService.getUser();
+    }
+
+    private void getTopReviwer() {
+        showProgressDialog();
+
+        final MainService mainService = new MainService(this);
+        mainService.getTopReviwer();
+    }
+
+    private void getTopMonthClick() {
+        showProgressDialog();
+
+        final MainService mainService = new MainService(this);
+        mainService.getTopMonth();
+    }
+
+    private void getTopWeekClick() {
+        showProgressDialog();
+
+        final MainService mainService = new MainService(this);
+        mainService.getTopWeek();
     }
 
     @Override
-    public void validateSuccess(ArrayList<String> list) {
+    public void validateUserSuccess(MainUserResponse user) {
         hideProgressDialog();
 
-        weeklyAdpater.setListData(list);
-        weeklyAdpater.notifyDataSetChanged();
+        if(user.getCode() != 200) {
+            Toast.makeText(this, user.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
-        monthlyAdpater.setListData(list);
-        monthlyAdpater.notifyDataSetChanged();
+        mTvMainName.setText(user.getData().getUser().getNickname());
+        mTvDrawerName.setText(user.getData().getUser().getNickname());
 
-        mReviewerAdapter.setListData(list);
-        mReviewerAdapter.notifyDataSetChanged();
+        String url =  user.getData().getUser().getProfile();
 
-        drawerCircleImage(httpChange(list.get(0).toString()));
-    }
-
-    public void drawerCircleImage(String data) {
         Glide.with(activity)
                 .load(R.drawable.main_color_circle_img)
                 .fitCenter()
@@ -160,26 +196,99 @@ public class MainActivity extends BaseActivity implements MainActivityView {
                 .circleCrop()
                 .into(mIvSecond);
 
-        Glide.with(activity)
-                .load(httpChange(data))
-                .fitCenter()
-                .circleCrop()
-                .into(mIvNickname);
+        if(url.equals("null")) {
+            Glide.with(activity)
+                    .load(R.drawable.instatour_logo_img)
+                    .fitCenter()
+                    .circleCrop()
+                    .into(mIvNickname);
+        }
+        else {
+            Glide.with(activity)
+                    .load(httpChange(url))
+                    .fitCenter()
+                    .circleCrop()
+                    .into(mIvNickname);
+        }
+        user.getData().getUser().getProfile();
     }
 
     @Override
-    public void validateFailure(@Nullable String message) {
+    public void validateUserFailure(String message) {
         hideProgressDialog();
-        showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void validateTopReviwerSuccess(MainTopReviewerResponse list) {
+        hideProgressDialog();
+
+        for(int i=0;i<list.getData().getUser().size(); i++){
+            mReviewerAdapter.addData(list.getData().getUser().get(i).getProfile());
+        }
+        mReviewerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void validateTopReviwerFailure(String message) {
+        hideProgressDialog();
+
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void validateTopClickMonthSuccess(MainTopClickResponse list) {
+        hideProgressDialog();
+
+        monthlyAdpater.setListData(list.getData().getHashtags());
+        monthlyAdpater.notifyDataSetChanged();
+    }
+
+    @Override
+    public void validateTopClickMonthFailure(String message) {
+        hideProgressDialog();
+
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void validateTopClickWeekSuccess(MainTopClickResponse list) {
+        hideProgressDialog();
+
+        weeklyAdpater.setListData(list.getData().getHashtags());
+        weeklyAdpater.notifyDataSetChanged();
+    }
+
+    @Override
+    public void validateTopClickWeekFailure(String message) {
+        hideProgressDialog();
+
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_view_search_layout:
-                Intent intent = new Intent(this, SearchActivity.class);
+                intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
+            case R.id.main_drawer_my_information_tv:
+                AWSMobileClient.getInstance().signOut();
+
+                SharedPreferences mSharedPreferences = getSharedPreferences(ApplicationClass.TAG, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                editor.remove(X_ACCESS_TOKEN);
+
+                editor.commit();
+
+                intent = new Intent(activity, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+                finish();
+                break;
         }
     }
+
+
 }

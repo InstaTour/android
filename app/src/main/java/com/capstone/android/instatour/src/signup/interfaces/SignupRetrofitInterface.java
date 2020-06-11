@@ -8,6 +8,6 @@ import retrofit2.http.GET;
 
 
 public interface SignupRetrofitInterface {
-    @GET("dev/posts")
+    @GET("posts")
     Call<TestResponse> getTestPost();
 }
