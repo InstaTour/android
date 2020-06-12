@@ -1,7 +1,11 @@
 package com.capstone.android.instatour.src.detail_posting;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,7 +40,7 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
     private RecyclerView mRVRelate;
     private DetailPostingImageAdapter mImageAdapter;
     private DetailPostingRelatedAdapter mRelatedAdpater;
-    private LinearLayout mLayoutWriter;
+    private String id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +69,25 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
 
     public void init() {
         activity = this;
+        id = getIntent().getStringExtra("id");
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.detail_posting_writer_layout:
+                Uri uri = Uri.parse("https://www.instagram.com/p/"+id);
+                Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+                likeIng.setPackage("com.instagram.android");
 
+                try {
+                    startActivity(likeIng);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://instagram.com")));
+                }
+                break;
         }
     }
 
@@ -90,14 +106,15 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
         mTvNickname = findViewById(R.id.detail_posting_nickname_tv);
         mTvPostingCount = findViewById(R.id.detail_posting_post_count_tv);
         mIvStars = findViewById(R.id.detail_posting_star_iv);
-//        mLayoutWriter = findViewById(R.id.detail_posting_writer_layout);
+        mPBManner = findViewById(R.id.detail_posting_manner_pb);
+        mTvProgressBarCount = findViewById(R.id.detail_posting_manner_tv);
     }
 
     private void getDetailPost() {
         showProgressDialog();
 
         final DetailPostingService mainService = new DetailPostingService(this);
-        mainService.getDetailPost(getIntent().getStringExtra("id"));
+        mainService.getDetailPost(id);
     }
 
     @Override
@@ -111,8 +128,20 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
         mRelatedAdpater.notifyDataSetChanged();
 
         mTvLocation.setText(getIntent().getStringExtra("location"));
-        mTvSection.setText(getIntent().getStringExtra("section"));
-        mTvDate.setText(response.getData().getPost().getDate().substring(0, 9));
+        String section = getIntent().getStringExtra("section");
+        if(section.equals("SEC_ALL")) {
+            section = "전체";
+        }
+        else if(section.equals("SEC_SIGHTS")) {
+            section = "관광지";
+        }
+        else if(section.equals("SEC_FOOD")) {
+            section = "맛집";
+        }
+        Log.i("SDVSDV", section);
+
+        mTvSection.setText(section);
+        mTvDate.setText(response.getData().getPost().getDate().substring(0, 11));
         mTvContent.setText(response.getData().getPost().getContent());
 
         if(response.getData().getAvgRates() ==0) {
@@ -140,7 +169,12 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
             mTvPostingCount.setText("포스팅 "+String.valueOf(response.getData().getWriter().getPosting()));
         }
         else {
-//            mLayoutWriter.setVisibility(View.GONE);
+            drawerInstagram();
+
+            mTvNickname.setText("To Instagram");
+            mTvPostingCount.setText("* 선택 시 해당 게시글로 이동합니다.");
+            mPBManner.setProgress(100);
+            mTvProgressBarCount.setText("100 %");
         }
     }
 
@@ -168,5 +202,11 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
                 .fitCenter()
                 .circleCrop()
                 .into(mIvNickname);
+    }
+
+    public void drawerInstagram() {
+        mIvFirst.setBackgroundResource(0);
+        mIvSecond.setBackgroundResource(0);
+        mIvNickname.setBackgroundResource(R.drawable.pink_instagram_img);
     }
 }

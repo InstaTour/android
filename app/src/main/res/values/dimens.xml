@@ -11,7 +11,7 @@
     <dimen name="searchDetailMarginVerticalDimen">16dp</dimen>
     <dimen name="mainWeeklyItemTextDimen">25dp</dimen>
     <dimen name="mainWeeklyItemRadiusDimen">5dp</dimen>
-    <dimen name="detailPostingVerticalSmallDimen">20dp</dimen>
+    <dimen name="detailPostingVerticalSmallDimen">15dp</dimen>
     <dimen name="detailPostingVerticalBigDimen">40dp</dimen>
     <dimen name="drawerPaddingHorizontalDimen">20dp</dimen>
     <dimen name="drawerItemVerticalDimen">30dp</dimen>
