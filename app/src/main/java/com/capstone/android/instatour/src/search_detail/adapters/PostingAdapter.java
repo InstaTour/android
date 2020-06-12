@@ -94,18 +94,20 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ItemView
                 @Override
                 public void onClick(View v) {
                     callbackInterface.click(listData.get(getAdapterPosition()).getId());
-//                    Intent intent = new Intent(activity, DetailPostingPostingActivity.class);
-//                    intent.putExtra("id", listData.get(getAdapterPosition()).getId());
-//                    intent.putExtra("location", )
-//                    activity.startActivity(intent);
-//                    activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 }
             });
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Log.i("PostingLonkClick", "YES");
+                    if(listData.get(getAdapterPosition()).isHearted()) {
+                        listData.get(getAdapterPosition()).setHearted(false);
+                    }
+                    else {
+                        listData.get(getAdapterPosition()).setHearted(true);
+                    }
+                    notifyItemChanged(getAdapterPosition());
+                    callbackInterface.heart(listData.get(getAdapterPosition()).getId(), !listData.get(getAdapterPosition()).isHearted());
                     return true;
                 }
             });

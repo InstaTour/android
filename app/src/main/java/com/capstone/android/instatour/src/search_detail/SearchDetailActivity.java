@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -55,6 +56,12 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
                     activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
         }
+
+        @Override
+        public void heart(String id, boolean select) {
+            Log.i("SDVSDV", String.valueOf(select));
+           heartCommunication(id, select);
+        }
     };
 
     private DialogSectionInterface dialogSectionInterface = new DialogSectionInterface() {
@@ -64,6 +71,16 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
             getPost();
         }
     };
+
+    public void heartCommunication(String id, boolean select) {
+        final SearchDetailService detailService = new SearchDetailService(this);
+        if(select) {
+            detailService.deleteHeart(id);
+        }
+        else {
+            detailService.postHeart(id);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +179,16 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     public void validateFailure(@Nullable String message) {
         hideProgressDialog();
         showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+    }
+
+    @Override
+    public void validateHeartSuccess(String message) {
+
+    }
+
+    @Override
+    public void validateHeartFailure(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
 
     public void drawerCircleImage(String data) {

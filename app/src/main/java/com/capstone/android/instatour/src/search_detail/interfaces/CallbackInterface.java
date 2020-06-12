@@ -11,4 +11,5 @@ import retrofit2.http.Query;
 
 public interface CallbackInterface {
     void click(String id);
+    void heart(String id, boolean select);
 }

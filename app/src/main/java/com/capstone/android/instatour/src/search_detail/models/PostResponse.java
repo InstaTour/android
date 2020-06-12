@@ -25,6 +25,10 @@ public class PostResponse {
         return hearted;
     }
 
+    public void setHearted(boolean hearted) {
+        this.hearted = hearted;
+    }
+
     public ArrayList<String> getImgUrl() {
         return imgUrl;
     }
@@ -32,6 +36,7 @@ public class PostResponse {
     public String getId() {
         return id;
     }
+
 
 
 }

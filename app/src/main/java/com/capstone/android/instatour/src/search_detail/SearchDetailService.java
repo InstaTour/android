@@ -3,6 +3,7 @@ package com.capstone.android.instatour.src.search_detail;
 
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailActivityView;
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailRetrofitInterface;
+import com.capstone.android.instatour.src.search_detail.models.BasicResponse;
 import com.capstone.android.instatour.src.search_detail.models.SearchDetailResponse;
 import com.capstone.android.instatour.src.search_detail.models.TestResponse;
 
@@ -38,6 +39,50 @@ class SearchDetailService {
             @Override
             public void onFailure(Call<SearchDetailResponse> call, Throwable t) {
                 mSearchDetailActivityView.validateFailure(null);
+            }
+        });
+    }
+
+    void postHeart(String id) {
+        final SearchDetailRetrofitInterface searchDetailRetrofitInterface = getRetrofit().create(SearchDetailRetrofitInterface.class);
+
+        searchDetailRetrofitInterface.postHeart(id).enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+                final BasicResponse defaultResponse = response.body();
+                if (defaultResponse == null) {
+                    mSearchDetailActivityView.validateHeartFailure(null);
+                    return;
+                }
+
+                mSearchDetailActivityView.validateHeartSuccess(response.message());
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                mSearchDetailActivityView.validateHeartFailure(null);
+            }
+        });
+    }
+
+    void deleteHeart(String id) {
+        final SearchDetailRetrofitInterface searchDetailRetrofitInterface = getRetrofit().create(SearchDetailRetrofitInterface.class);
+
+        searchDetailRetrofitInterface.deleteHeart(id).enqueue(new Callback<BasicResponse>() {
+            @Override
+            public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
+                final BasicResponse defaultResponse = response.body();
+                if (defaultResponse == null) {
+                    mSearchDetailActivityView.validateHeartFailure(null);
+                    return;
+                }
+
+                mSearchDetailActivityView.validateHeartSuccess(response.message());
+            }
+
+            @Override
+            public void onFailure(Call<BasicResponse> call, Throwable t) {
+                mSearchDetailActivityView.validateHeartFailure(null);
             }
         });
     }
