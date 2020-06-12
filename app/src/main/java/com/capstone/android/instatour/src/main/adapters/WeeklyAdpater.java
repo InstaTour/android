@@ -104,7 +104,7 @@ public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHo
             int position = getAdapterPosition();
 
             name.setText(data.getId());
-            views.setText(String.valueOf(data.getApx_num()));
+            views.setText(String.valueOf(data.getViews()));
             count.setText("게시물 "+ String.valueOf(data.getApx_num()));
 
             related1.setText(data.getRelatives().get(0));
