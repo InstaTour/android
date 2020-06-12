@@ -87,9 +87,9 @@ public class RecentSearchAdpater extends RecyclerView.Adapter<RecentSearchAdpate
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, SearchDetailActivity.class);
+                    intent.putExtra("location", listData.get(getAdapterPosition()).getLocation());
                     activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
-                    Log.i("PostingClick", "YES");
                 }
             });
 

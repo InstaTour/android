@@ -25,7 +25,9 @@ import com.capstone.android.instatour.src.BaseActivity;
 import com.capstone.android.instatour.src.detail_posting.DetailPostingPostingActivity;
 import com.capstone.android.instatour.src.edit_posting.EditPostingActivity;
 import com.capstone.android.instatour.src.search_detail.adapters.PostingAdapter;
+import com.capstone.android.instatour.src.search_detail.dialogs.SectionDialog;
 import com.capstone.android.instatour.src.search_detail.interfaces.CallbackInterface;
+import com.capstone.android.instatour.src.search_detail.interfaces.DialogSectionInterface;
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailActivityView;
 import com.capstone.android.instatour.src.search_detail.models.SearchDetailResponse;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
@@ -52,6 +54,14 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
                     intent.putExtra("section", section);
                     activity.startActivity(intent);
                     activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+        }
+    };
+
+    private DialogSectionInterface dialogSectionInterface = new DialogSectionInterface() {
+        @Override
+        public void click(String name) {
+            section = name;
+            getPost();
         }
     };
 
@@ -105,14 +115,15 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
             case R.id.search_detail_back_iv:
                 finish();
                 break;
-            case R.id.search_detail_section_layout:
-            case R.id.search_detail_section_text_tv:
-                // start dialog
-                break;
             case R.id.search_detail_plus_iv:
                 Intent intent = new Intent(activity, EditPostingActivity.class);
                 activity.startActivity(intent);
                 activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+                break;
+
+            case R.id.search_detail_section_text_tv:
+            case R.id.search_detail_section_layout:
+                SectionDialog mDialog = new SectionDialog(activity, dialogSectionInterface, section);
                 break;
         }
     }
@@ -136,11 +147,14 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
         mTvDetailCount.setText(String.valueOf(response.getData().getNum()));
         mTvAboutCount.setText(String.valueOf(response.getData().getApx_num()));
 
-        if(response.getData().getPosts().get(0) != null) {
+        if(response.getData().getPosts() != null && response.getData().getPosts().size()!=0) {
             drawerCircleImage(response.getData().getPosts().get(0).getImgUrl().get(0));
         }
 
         mPostingAdpater.setListData(response.getData().getPosts());
+        Log.i("VCSDVSDV", String.valueOf(response.getData().getPosts().size()));
+        Log.i("DSVSVDD", String.valueOf(mPostingAdpater.getListData().size()));
+
         mPostingAdpater.notifyDataSetChanged();
     }
 
