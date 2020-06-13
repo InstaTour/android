@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="@dimen/searchDetailMarginVerticalDimen">
+        <ImageView
+            android:id="@+id/check_post_back_iv"
+            android:layout_width="@dimen/backDimen"
+            android:layout_height="@dimen/backDimen"
+            android:onClick="onClick"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/searchHorizontalMarginDimen"
+            android:src="@drawable/dark_back_img"/>
+       <TextView
+           android:id="@+id/check_post_location_tv"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="# 파리"
+           android:textStyle="bold"
+           android:textColor="@color/colorBlack"
+           android:fontFamily="@font/nanum_extra_bold"
+           android:includeFontPadding="false"
+           android:layout_gravity="center"
+           android:textSize="17dp"/>
+   </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/check_post_grid_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,7 +1,6 @@
-package com.capstone.android.instatour.src.search_detail.adapters;
+package com.capstone.android.instatour.src.CheckPost.adapters;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,41 +12,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
-import com.capstone.android.instatour.src.detail_posting.DetailPostingPostingActivity;
-import com.capstone.android.instatour.src.search_detail.interfaces.CallbackInterface;
-import com.capstone.android.instatour.src.search_detail.models.PostResponse;
-import com.capstone.android.instatour.src.search_detail.models.SearchDetailResponse;
+import com.capstone.android.instatour.src.CheckPost.models.CheckPostDataResponse;
 
 import java.util.ArrayList;
-
-import javax.security.auth.callback.Callback;
 
 import static com.capstone.android.instatour.src.ApplicationClass.httpChange;
 
 
 public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ItemViewHolder> {
 
-    private ArrayList<PostResponse> listData = new ArrayList<>();
+    private ArrayList<CheckPostDataResponse> listData = new ArrayList<>();
     private Activity activity;
-    private  CallbackInterface callbackInterface;
 
-    public PostingAdapter(Activity activity, CallbackInterface callbackInterface) {
+    public PostingAdapter(Activity activity) {
         this.activity = activity;
-        this.callbackInterface = callbackInterface;
     }
     // constructor
 
-    public void addListData(ArrayList<PostResponse> tmp) {
+    public void addListData(ArrayList<CheckPostDataResponse> tmp) {
         for(int i=0;i<tmp.size();i++){
             listData.add(tmp.get(i));
         }
     }
 
-    public void setListData(ArrayList<PostResponse> listData) {
+    public void setListData(ArrayList<CheckPostDataResponse> listData) {
         this.listData = listData;
     }
 
-    public ArrayList<PostResponse> getListData() {
+    public ArrayList<CheckPostDataResponse> getListData() {
         return listData;
     }
 
@@ -56,7 +48,7 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ItemView
 //        this.listData.clear();
     }
 
-    public void addData(PostResponse data) {
+    public void addData(CheckPostDataResponse data) {
         listData.add(data);
     }
 
@@ -88,33 +80,10 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ItemView
         ItemViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.item_posting_iv);
-            heart = itemView.findViewById(R.id.item_posting_heart_iv);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    callbackInterface.click(listData.get(getAdapterPosition()).getId());
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if(listData.get(getAdapterPosition()).isHearted()) {
-                        listData.get(getAdapterPosition()).setHearted(false);
-                    }
-                    else {
-                        listData.get(getAdapterPosition()).setHearted(true);
-                    }
-                    notifyItemChanged(getAdapterPosition());
-                    callbackInterface.heart(listData.get(getAdapterPosition()).getId(), !listData.get(getAdapterPosition()).isHearted());
-                    return true;
-                }
-            });
         }
 
-        void onBind(PostResponse data) {
-//                image.setBackgroundResource(R.drawable.instatour_logo_img);
+        void onBind(CheckPostDataResponse data) {
+                image.setBackgroundResource(R.drawable.black_head_img);
 
                 if(data.getImgUrl() != null) {
                     Glide.with(activity)
@@ -127,13 +96,6 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ItemView
                             .load(R.drawable.travel_shape_img)
                             .fitCenter()
                             .into(image);
-                }
-
-                if(data.isHearted()) {
-                    heart.setBackgroundResource(R.drawable.full_heart_img);
-                }
-                else {
-                    heart.setBackgroundResource(0);
                 }
         }
         // set views

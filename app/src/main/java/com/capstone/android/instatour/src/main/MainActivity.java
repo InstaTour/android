@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.ApplicationClass;
 import com.capstone.android.instatour.src.BaseActivity;
+import com.capstone.android.instatour.src.CheckPost.CheckPostlActivity;
 import com.capstone.android.instatour.src.login.LoginActivity;
 import com.capstone.android.instatour.src.main.adapters.MonthlyAdpater;
 import com.capstone.android.instatour.src.main.adapters.ReviewerAdapter;
@@ -281,7 +282,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
                 startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
-            case R.id.main_drawer_my_information_tv:
+            case R.id.main_drawer_my_logout_tv:
                 AWSMobileClient.getInstance().signOut();
 
                 SharedPreferences mSharedPreferences = getSharedPreferences(ApplicationClass.TAG, Context.MODE_PRIVATE);
@@ -294,6 +295,18 @@ public class MainActivity extends BaseActivity implements MainActivityView {
                 startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 finish();
+                break;
+            case R.id.main_drawer_my_information_tv:
+                intent = new Intent(activity, CheckPostlActivity.class);
+                intent.putExtra("id", 0);
+                startActivity(intent);
+                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+                break;
+            case R.id.main_drawer_steam_tv:
+                intent = new Intent(activity, CheckPostlActivity.class);
+                intent.putExtra("id", 1);
+                startActivity(intent);
+                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
         }
     }

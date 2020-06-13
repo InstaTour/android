@@ -45,6 +45,7 @@
         <activity android:name=".src.login.LoginActivity"/>
         <activity android:name=".src.signup.SignupActivity"/>
         <activity android:name=".src.main.MainActivity"/>
+        <activity android:name=".src.CheckPost.CheckPostlActivity"/>
 
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

@@ -179,7 +179,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/main_drawer_my_information_tv"
+                    android:id="@+id/main_drawer_my_logout_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_regular"
@@ -192,7 +192,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/main_drawer_steam_tv"
+                    android:id="@+id/main_drawer_my_information_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_regular"
@@ -200,11 +200,12 @@
                     android:text="내 정보"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="@dimen/drawerItemVerticalDimen"
+                    android:onClick="onClick"
                     android:textSize="16dp"
                     />
 
                 <TextView
-                    android:id="@+id/main_drawer_writing_tv"
+                    android:id="@+id/main_drawer_steam_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_regular"
@@ -212,6 +213,7 @@
                     android:text="찜 목록"
                     android:textColor="@color/colorBlack"
                     android:layout_marginTop="@dimen/drawerItemVerticalDimen"
+                    android:onClick="onClick"
                     android:textSize="16dp"
                     />
 
