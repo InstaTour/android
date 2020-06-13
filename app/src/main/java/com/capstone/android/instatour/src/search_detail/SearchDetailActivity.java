@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -46,6 +47,12 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     private PostingAdapter mPostingAdpater;
     private Activity activity;
     private String location, section;
+
+    public int mPage = 0;
+    public boolean mNoMoreItem = false;
+    public boolean mLoadLock = false;
+    private boolean mIsFirst = true;
+
     private CallbackInterface callbackInterface = new CallbackInterface() {
         @Override
         public void click(String id) {
@@ -68,6 +75,12 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
         @Override
         public void click(String name) {
             section = name;
+
+            mPage =0;
+            mNoMoreItem = false;
+            mLoadLock = false;
+            mIsFirst = true;
+
             getPost();
         }
     };
@@ -99,6 +112,36 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
         section = "SEC_ALL";
 
         mTvLocation.setText(getIntent().getStringExtra("location"));
+
+        mRVPosting.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if((mRVPosting.getLayoutManager())==null){
+                    return;
+                }
+                int lastVisiblePosition = ((GridLayoutManager)mRVPosting.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+
+                if(mRVPosting.getAdapter()==null){
+                    return;
+                }
+                int itemTotalCount = mRVPosting.getAdapter().getItemCount();
+
+                if(lastVisiblePosition > itemTotalCount * 0.7){
+                    if (!mLoadLock) {
+                        mLoadLock = true;
+                        if (!mNoMoreItem) {
+                            getPost();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -123,7 +166,7 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
         showProgressDialog();
 
         final SearchDetailService mainService = new SearchDetailService(this);
-        mainService.getSearch(location, section, 0, 30);
+        mainService.getSearch(location, section, mPage, 30);
     }
 
     @Override
@@ -151,30 +194,44 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     public void validateSuccess(SearchDetailResponse response) {
         hideProgressDialog();
 
-        String tmp = "";
-        if(response.getData() == null) {
-            return;
-        }
-        if(response.getData().getRelatives() != null) {
-            for(int i=0;i<response.getData().getRelatives().size();i++) {
-                tmp= tmp + "#" + response.getData().getRelatives().get(i) + " ";
+
+        if(mIsFirst) {
+            String tmp = "";
+            if(response.getData() == null) {
+                return;
             }
-            mTvRelated.setText(tmp);
-            mTvRelated.setMovementMethod((new ScrollingMovementMethod()));
+            if(response.getData().getRelatives() != null) {
+                for(int i=0;i<response.getData().getRelatives().size();i++) {
+                    tmp= tmp + "#" + response.getData().getRelatives().get(i) + " ";
+                }
+                mTvRelated.setText(tmp);
+                mTvRelated.setMovementMethod((new ScrollingMovementMethod()));
+            }
+
+            mTvDetailCount.setText(String.valueOf(response.getData().getNum()));
+            mTvAboutCount.setText(String.valueOf(response.getData().getApx_num()));
+
+            if(response.getData().getPosts() != null && response.getData().getPosts().size()!=0) {
+                drawerCircleImage(response.getData().getPosts().get(0).getImgUrl().get(0));
+            }
+
+            mIsFirst = false;
         }
 
-        mTvDetailCount.setText(String.valueOf(response.getData().getNum()));
-        mTvAboutCount.setText(String.valueOf(response.getData().getApx_num()));
-
-        if(response.getData().getPosts() != null && response.getData().getPosts().size()!=0) {
-            drawerCircleImage(response.getData().getPosts().get(0).getImgUrl().get(0));
+        if(response.getData().getPosts().size() ==0 || response.getData().getPosts().size() % 30 !=0) {
+            mNoMoreItem =  true;
         }
 
-        mPostingAdpater.setListData(response.getData().getPosts());
-        Log.i("VCSDVSDV", String.valueOf(response.getData().getPosts().size()));
-        Log.i("DSVSVDD", String.valueOf(mPostingAdpater.getListData().size()));
-
+        if(mPage ==0) {
+            mPostingAdpater.setListData(response.getData().getPosts());
+        }
+        else {
+            mPostingAdpater.addListData(response.getData().getPosts());
+            mPostingAdpater.notifyItemRangeChanged(0, mPostingAdpater.getListData().size());
+        }
         mPostingAdpater.notifyDataSetChanged();
+        mPage += response.getData().getPosts().size();
+        mLoadLock = false;
     }
 
     @Override
