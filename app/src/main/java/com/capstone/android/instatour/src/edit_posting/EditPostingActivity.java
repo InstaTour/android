@@ -2,8 +2,6 @@ package com.capstone.android.instatour.src.edit_posting;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,10 +13,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +24,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -49,9 +44,13 @@ import com.capstone.android.instatour.src.edit_posting.adapters.UriImageAdapter;
 import com.capstone.android.instatour.src.edit_posting.dialogs.ImageSelectDialog;
 import com.capstone.android.instatour.src.edit_posting.interfaces.DialogImageSelectInterface;
 import com.capstone.android.instatour.src.edit_posting.interfaces.EditPostingActivityView;
+import com.capstone.android.instatour.src.edit_posting.models.BasicResponse;
 import com.capstone.android.instatour.src.main.MainActivity;
+import com.capstone.android.instatour.src.main.models.MainUserResponse;
 import com.capstone.android.instatour.utils.Utils;
 import com.yalantis.ucrop.UCrop;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -80,8 +79,16 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
     private File tmpFile;
     private UriImageAdapter uriImageAdapter;
     private ViewPager2 mVP2Image;
-    private int year, month, dates;
+    private EditText mEtContent;
     private  ArrayList<String> imgUrlList = new ArrayList<>();
+
+    private TextView mTvLocation, mTvSection, mTvDate, mTvNickname;
+    private ImageView mIvFirst, mIvSecond, mIvName;
+    private String section;
+    private int uploadFileSize=0;
+    private String time = "";
+
+    int uploadStatus =0;
 
     private DialogImageSelectInterface mCameraInterface = new DialogImageSelectInterface() {
         @Override
@@ -102,9 +109,11 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
 
         initViews();
         checkPermissions();
+
         init();
         initAdapter();
 
+        getUser();
     }
 
     public void initAdapter() {
@@ -115,6 +124,19 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
 
     public void init() {
         activity = this;
+        mTvLocation.setText(getIntent().getStringExtra("location"));
+        section = getIntent().getStringExtra("section");
+        if(section.equals("SEC_ALL")) {
+            mTvSection.setText("전체");
+        }
+        else if(section.equals("SEC_FOOD")) {
+            mTvSection.setText("맛집");
+        }
+        else if(section.equals("SEC_SIGHTS")) {
+            mTvSection.setText("관광지");
+        }
+        mTvSection.setText(getIntent().getStringExtra("section"));
+        mTvDate.setText(Utils.getNowBarTime());
     }
 
     private boolean checkPermissions() {
@@ -161,6 +183,13 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
         }
     }
 
+    public void getUser() {
+        showProgressDialog();
+
+        final EditPostingService mainService = new EditPostingService(this);
+        mainService.getUser();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -182,6 +211,14 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
     @Override
     public void initViews() {
         mVP2Image = findViewById(R.id.edit_posting_vp2);
+        mTvLocation = findViewById(R.id.edit_posting_location_tv);
+        mTvSection = findViewById(R.id.edit_posting_section_tv);
+        mTvDate = findViewById(R.id.edit_posting_date_tv);
+        mTvNickname = findViewById(R.id.edit_posting_nickname_tv);
+        mIvFirst = findViewById(R.id.edit_posting_first_iv);
+        mIvSecond = findViewById(R.id.edit_posting_second_iv);
+        mIvName = findViewById(R.id.edit_posting_user_iv);
+        mEtContent = findViewById(R.id.edit_posting_content_et);
     }
 
     private void takePhoto() {
@@ -261,7 +298,7 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
                 }
                 uriImageAdapter.notifyDataSetChanged();
             } else {
-                uriImageAdapter.addData(photoUri);
+                uriImageAdapter.addData(getRealPathFromURI(photoUri));
                 uriImageAdapter.notifyDataSetChanged();
             }
         }
@@ -369,22 +406,32 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
         TransferNetworkLossHandler.getInstance(this);
 
         TransferObserver uploadObserver = null;
-        String time = Utils.getNowMilliSecond();
+        time = Utils.getNowMilliSecond();
 
-        for(int i=0;i<uriImageAdapter.getListData().size();i++){
-            uploadObserver = transferUtility.upload("instatour-image", time+String.valueOf(i)+".png", new File(uriImageAdapter.getListData().get(i).getPath()), CannedAccessControlList.PublicRead);
+        uploadFileSize = uriImageAdapter.getListData().size();
 
+        Log.i("SDVsdvsd", String.valueOf(uriImageAdapter.getListData().size()));
+        for(int i=0;i<uploadFileSize;i++){
+            uploadObserver = transferUtility.upload("instatour-image/upload", time+String.valueOf(i)+".png", new File(uriImageAdapter.getListData().get(i).getPath()), CannedAccessControlList.PublicRead);
         }
 
+        if(uriImageAdapter.getListData().size() ==0) {
+            apiUpload();
+            return;
+        }
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
                 Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
 
                 if(state == TransferState.COMPLETED) {
-                    String url = s3Client.getResourceUrl("instatour-image/profile", time + String.valueOf("profile") + ".png");
+                    for(int i=0;i<uploadFileSize;i++){
+                        imgUrlList.add(s3Client.getResourceUrl("instatour-image/upload", time+String.valueOf(i)+".png"));
+                    }
 
-                    activity.finish();
+//                    String url = s3Client.getResourceUrl("instatour-image/profile", time + String.valueOf("profile") + ".png");
+
+                    apiUpload();
                 }
 
             }
@@ -403,11 +450,15 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
         });
     }
 
-    private void tryGetTest() {
+    public void apiUpload() {
         showProgressDialog();
 
-        final SearchDetailService mainService = new SearchDetailService(this);
-        mainService.getTest();
+        final EditPostingService mainService = new EditPostingService(this);
+        try {
+            mainService.postPoting(mTvLocation.getText().toString(), section, mEtContent.getText().toString(),  imgUrlList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -419,5 +470,67 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
     public void validateFailure(@Nullable String message) {
         hideProgressDialog();
         showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+    }
+
+    @Override
+    public void validateUserSuccess(MainUserResponse user) {
+        hideProgressDialog();
+
+        if(user.getCode() != 200) {
+            Toast.makeText(this, user.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        if(user.getData() != null) {
+            mTvNickname.setText(user.getData().getUser().getNickname());
+        }
+
+        String url =  user.getData().getUser().getProfile();
+
+        Glide.with(activity)
+                .load(R.drawable.main_color_circle_img)
+                .fitCenter()
+                .circleCrop()
+                .into(mIvFirst);
+
+        Glide.with(activity)
+                .load(R.drawable.white_background)
+                .fitCenter()
+                .circleCrop()
+                .into(mIvSecond);
+
+        if(url.equals("null")) {
+            Glide.with(activity)
+                    .load(R.drawable.instatour_logo_img)
+                    .fitCenter()
+                    .circleCrop()
+                    .into(mIvName);
+        }
+        else {
+            Glide.with(activity)
+                    .load(httpChange(url))
+                    .fitCenter()
+                    .circleCrop()
+                    .into(mIvName);
+        }
+    }
+
+    @Override
+    public void validateUserFailure(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void validatePostingSuccess(BasicResponse list) {
+        hideProgressDialog();
+        Log.i("Vsdvdsdasdsd", String.valueOf(list.getCode()));
+        System.out.println(list.getMessage());
+        activity.finish();
+    }
+
+    @Override
+    public void validatePostingFailure(String message) {
+        hideProgressDialog();
+
+        activity.finish();
     }
 }

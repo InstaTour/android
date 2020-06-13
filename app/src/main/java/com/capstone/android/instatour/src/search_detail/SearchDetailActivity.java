@@ -134,8 +134,10 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
                 break;
             case R.id.search_detail_plus_iv:
                 Intent intent = new Intent(activity, EditPostingActivity.class);
-                activity.startActivity(intent);
-                activity.overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
+                intent.putExtra("location", location);
+                intent.putExtra("section", section);
+                startActivity(intent);
+                overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
 
             case R.id.search_detail_section_text_tv:

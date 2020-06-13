@@ -117,6 +117,115 @@
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/detailPostingVerticalBigDimen"
+                android:background="@drawable/white_shadow_border_img"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:onClick="onClick"
+                android:paddingRight="15dp">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/colorWhite">
+
+                    <ImageView
+                        android:id="@+id/edit_posting_first_iv"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        />
+
+                    <ImageView
+                        android:id="@+id/edit_posting_second_iv"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        />
+
+                    <ImageView
+                        android:id="@+id/edit_posting_user_iv"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/edit_posting_nickname_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanum_bold"
+                        android:text="영민 님"
+                        android:textColor="@color/colorViolet"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/edit_posting_post_count_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/nanum_regular"
+                        android:gravity="center_vertical"
+                        android:text="포스팅 7"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/nanum_bold"
+                            android:text="매너 지수"
+                            android:textColor="@color/colorGrey"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            android:id="@+id/edit_posting_manner_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nanum_extra_bold"
+                            android:text="65 %"
+                            android:textColor="@color/colorViolet"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/edit_posting_manner_pb"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:max="100"
+                        android:progress="50"
+                        android:progressDrawable="@drawable/progressbar_drawable" />
+                </LinearLayout>
+            </LinearLayout>
+
             <Button
                 android:id="@+id/edit_posting_finish_btn"
                 android:layout_width="match_parent"
