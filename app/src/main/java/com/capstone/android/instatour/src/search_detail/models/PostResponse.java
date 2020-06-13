@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class PostResponse {
     @SerializedName("rated")
-    private int rated;
+    private double rated;
 
     @SerializedName("hearted")
     private boolean hearted;
@@ -17,7 +17,7 @@ public class PostResponse {
     @SerializedName("id")
     private String id;
 
-    public int getRated() {
+    public double getRated() {
         return rated;
     }
 

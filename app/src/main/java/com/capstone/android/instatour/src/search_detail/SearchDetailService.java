@@ -1,6 +1,8 @@
 package com.capstone.android.instatour.src.search_detail;
 
 
+import android.util.Log;
+
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailActivityView;
 import com.capstone.android.instatour.src.search_detail.interfaces.SearchDetailRetrofitInterface;
 import com.capstone.android.instatour.src.search_detail.models.BasicResponse;
@@ -29,6 +31,8 @@ class SearchDetailService {
             public void onResponse(Call<SearchDetailResponse> call, Response<SearchDetailResponse> response) {
                 final SearchDetailResponse defaultResponse = response.body();
                 if (defaultResponse == null) {
+                    Log.i("SDVSDV", "SDVsdv");
+                    Log.i("SDVSDV", response.message());
                     mSearchDetailActivityView.validateFailure(null);
                     return;
                 }
@@ -38,6 +42,7 @@ class SearchDetailService {
 
             @Override
             public void onFailure(Call<SearchDetailResponse> call, Throwable t) {
+                Log.i("SDVsdv", t.getMessage());
                 mSearchDetailActivityView.validateFailure(null);
             }
         });
@@ -51,6 +56,8 @@ class SearchDetailService {
             public void onResponse(Call<BasicResponse> call, Response<BasicResponse> response) {
                 final BasicResponse defaultResponse = response.body();
                 if (defaultResponse == null) {
+                    Log.i("SDVSDV", "SDVsdv");
+                    Log.i("sadvsadvads", response.message());
                     mSearchDetailActivityView.validateHeartFailure(null);
                     return;
                 }
@@ -60,6 +67,7 @@ class SearchDetailService {
 
             @Override
             public void onFailure(Call<BasicResponse> call, Throwable t) {
+                Log.i("SVDsDV", t.getMessage());
                 mSearchDetailActivityView.validateHeartFailure(null);
             }
         });

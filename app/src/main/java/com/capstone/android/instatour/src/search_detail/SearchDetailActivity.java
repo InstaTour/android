@@ -178,6 +178,7 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     @Override
     public void validateFailure(@Nullable String message) {
         hideProgressDialog();
+        System.out.println(message);
         showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
     }
 

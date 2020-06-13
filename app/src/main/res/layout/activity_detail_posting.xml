@@ -87,6 +87,7 @@
                     android:layout_gravity="center_vertical"
                     android:baselineAligned="false"
                     android:scaleType="fitStart"
+                    android:onClick="onClick"
                     tools:src="@drawable/star_4_img" />
 
                 <TextView

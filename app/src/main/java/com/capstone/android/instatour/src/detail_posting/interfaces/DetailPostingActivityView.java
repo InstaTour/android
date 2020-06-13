@@ -7,4 +7,7 @@ import java.util.ArrayList;
 public interface DetailPostingActivityView {
     void validateDetailPostSuccess(DetailPostResponse response);
     void validateDetailPostFailure(String message);
+
+    void validateRateSuccess(String message);
+    void validateRateFailure(String message);
 }

@@ -10,7 +10,7 @@ public class DataResponse {
     private WriterResponse writer;
 
     @SerializedName("avg_rates")
-    private int avgRates;
+    private double avgRates;
 
     @SerializedName("reviews")
     private int reviews;
@@ -23,7 +23,7 @@ public class DataResponse {
         return writer;
     }
 
-    public int getAvgRates() {
+    public double getAvgRates() {
         return avgRates;
     }
 

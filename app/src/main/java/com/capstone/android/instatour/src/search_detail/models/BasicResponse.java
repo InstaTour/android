@@ -19,4 +19,8 @@ public class BasicResponse {
     public TestImageResponse getData() {
         return data;
     }
+
+    public int getCode() {
+        return code;
+    }
 }

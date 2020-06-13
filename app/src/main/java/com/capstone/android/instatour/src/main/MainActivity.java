@@ -179,8 +179,10 @@ public class MainActivity extends BaseActivity implements MainActivityView {
             Toast.makeText(this, user.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        mTvMainName.setText(user.getData().getUser().getNickname());
-        mTvDrawerName.setText(user.getData().getUser().getNickname());
+        if(user.getData() != null) {
+            mTvMainName.setText(user.getData().getUser().getNickname());
+            mTvDrawerName.setText(user.getData().getUser().getNickname());
+        }
 
         String url =  user.getData().getUser().getProfile();
 
@@ -223,8 +225,10 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     public void validateTopReviwerSuccess(MainTopReviewerResponse list) {
         hideProgressDialog();
 
-        for(int i=0;i<list.getData().getUser().size(); i++){
-            mReviewerAdapter.addData(list.getData().getUser().get(i).getProfile());
+        if(list.getData()!= null) {
+            for (int i = 0; i < list.getData().getUser().size(); i++) {
+                mReviewerAdapter.addData(list.getData().getUser().get(i).getProfile());
+            }
         }
         mReviewerAdapter.notifyDataSetChanged();
     }
@@ -240,8 +244,10 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     public void validateTopClickMonthSuccess(MainTopClickResponse list) {
         hideProgressDialog();
 
-        monthlyAdpater.setListData(list.getData().getHashtags());
-        monthlyAdpater.notifyDataSetChanged();
+        if (list.getData() != null) {
+            monthlyAdpater.setListData(list.getData().getHashtags());
+            monthlyAdpater.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -255,8 +261,10 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     public void validateTopClickWeekSuccess(MainTopClickResponse list) {
         hideProgressDialog();
 
-        weeklyAdpater.setListData(list.getData().getHashtags());
-        weeklyAdpater.notifyDataSetChanged();
+        if (list.getData() != null) {
+            weeklyAdpater.setListData(list.getData().getHashtags());
+            weeklyAdpater.notifyDataSetChanged();
+        }
     }
 
     @Override

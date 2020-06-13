@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +23,9 @@ import com.capstone.android.instatour.R;
 import com.capstone.android.instatour.src.BaseActivity;
 import com.capstone.android.instatour.src.detail_posting.adapters.DetailPostingImageAdapter;
 import com.capstone.android.instatour.src.detail_posting.adapters.DetailPostingRelatedAdapter;
+import com.capstone.android.instatour.src.detail_posting.dialogs.DetailPostingRatingDialog;
 import com.capstone.android.instatour.src.detail_posting.interfaces.DetailPostingActivityView;
+import com.capstone.android.instatour.src.detail_posting.interfaces.DialogRatingInterface;
 import com.capstone.android.instatour.src.detail_posting.models.DetailPostResponse;
 import com.capstone.android.instatour.utils.SpaceItemDecoration;
 
@@ -41,6 +44,13 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
     private DetailPostingImageAdapter mImageAdapter;
     private DetailPostingRelatedAdapter mRelatedAdpater;
     private String id = "";
+
+    private DialogRatingInterface dialogRatingInterface = new DialogRatingInterface() {
+        @Override
+        public void rating(float value) {
+           putStart(value);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,8 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
     public void init() {
         activity = this;
         id = getIntent().getStringExtra("id");
+
+        Log.i("SDVSDV", id);
     }
 
 
@@ -88,6 +100,10 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
                             Uri.parse("http://instagram.com")));
                 }
                 break;
+            case R.id.detail_posting_star_iv:
+                DetailPostingRatingDialog mDialog = new DetailPostingRatingDialog(activity, 0, dialogRatingInterface);
+                break;
+
         }
     }
 
@@ -117,6 +133,12 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
         mainService.getDetailPost(id);
     }
 
+    private void putStart(float value) {
+        Log.i("SDVSDV", "DSVSDV");
+        final DetailPostingService mainService = new DetailPostingService(this);
+        mainService.putStars(id, value);
+    }
+
     @Override
     public void validateDetailPostSuccess(DetailPostResponse response) {
         hideProgressDialog();
@@ -144,22 +166,22 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
         mTvDate.setText(response.getData().getPost().getDate().substring(0, 11));
         mTvContent.setText(response.getData().getPost().getContent());
 
-        if(response.getData().getAvgRates() ==0) {
+        if((int) response.getData().getAvgRates() ==0) {
             mIvStars.setBackgroundResource(R.drawable.star_0_img);
         }
-        else if(response.getData().getAvgRates() ==1) {
+        else if((int) response.getData().getAvgRates() ==1) {
             mIvStars.setBackgroundResource(R.drawable.star_1_img);
         }
-        else if(response.getData().getAvgRates() ==2) {
+        else if((int) response.getData().getAvgRates() ==2) {
             mIvStars.setBackgroundResource(R.drawable.star_2_img);
         }
-        else if(response.getData().getAvgRates() ==3) {
+        else if((int)response.getData().getAvgRates() ==3) {
             mIvStars.setBackgroundResource(R.drawable.star_3_img);
         }
-        else if(response.getData().getAvgRates() ==4) {
+        else if((int) response.getData().getAvgRates() ==4) {
             mIvStars.setBackgroundResource(R.drawable.star_4_img);
         }
-        else if(response.getData().getAvgRates() ==5) {
+        else if((int) response.getData().getAvgRates() ==5) {
             mIvStars.setBackgroundResource(R.drawable.star_5_img);
         }
         mTvReviewCount.setText(String.valueOf(response.getData().getReviews())+" reviews");
@@ -182,6 +204,16 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
     public void validateDetailPostFailure(String message) {
         hideProgressDialog();
         showCustomToast(message == null || message.isEmpty() ? getString(R.string.network_error) : message);
+    }
+
+    @Override
+    public void validateRateSuccess(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void validateRateFailure(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
 
     public void drawerCircleImage(String data) {
