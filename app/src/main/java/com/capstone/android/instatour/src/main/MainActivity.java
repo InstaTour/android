@@ -108,6 +108,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
         mTvMainName = findViewById(R.id.main_view_nickname_tv);
         mTvDrawerName = findViewById(R.id.main_drawer_nickname_tv);
     }
+
     public void initHamburgerBar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -176,44 +177,46 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     public void validateUserSuccess(MainUserResponse user) {
         hideProgressDialog();
 
-        if(user.getCode() != 200) {
+        if (user.getCode() != 200) {
             Toast.makeText(this, user.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        if(user.getData() != null) {
-            mTvMainName.setText(user.getData().getUser().getNickname());
-            mTvDrawerName.setText(user.getData().getUser().getNickname());
+        if (user.getData() != null) {
+            if (user.getData().getUser() != null) {
+                mTvMainName.setText(user.getData().getUser().getNickname());
+                mTvDrawerName.setText(user.getData().getUser().getNickname());
+            }
         }
 
-        String url =  user.getData().getUser().getProfile();
+        if(user.getData() != null && user.getData().getUser()!=null && user.getData().getUser().getProfile() != null) {
+            String url = user.getData().getUser().getProfile();
 
-        Glide.with(activity)
-                .load(R.drawable.main_color_circle_img)
-                .fitCenter()
-                .circleCrop()
-                .into(mIvFirst);
-
-        Glide.with(activity)
-                .load(R.drawable.white_background)
-                .fitCenter()
-                .circleCrop()
-                .into(mIvSecond);
-
-        if(url.equals("null")) {
             Glide.with(activity)
-                    .load(R.drawable.instatour_logo_img)
+                    .load(R.drawable.main_color_circle_img)
                     .fitCenter()
                     .circleCrop()
-                    .into(mIvNickname);
-        }
-        else {
+                    .into(mIvFirst);
+
             Glide.with(activity)
-                    .load(httpChange(url))
+                    .load(R.drawable.white_background)
                     .fitCenter()
                     .circleCrop()
-                    .into(mIvNickname);
+                    .into(mIvSecond);
+
+            if (url.equals("null")) {
+                Glide.with(activity)
+                        .load(R.drawable.instatour_logo_img)
+                        .fitCenter()
+                        .circleCrop()
+                        .into(mIvNickname);
+            } else {
+                Glide.with(activity)
+                        .load(httpChange(url))
+                        .fitCenter()
+                        .circleCrop()
+                        .into(mIvNickname);
+            }
         }
-        user.getData().getUser().getProfile();
     }
 
     @Override
@@ -226,7 +229,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     public void validateTopReviwerSuccess(MainTopReviewerResponse list) {
         hideProgressDialog();
 
-        if(list.getData()!= null) {
+        if (list.getData() != null) {
             for (int i = 0; i < list.getData().getUser().size(); i++) {
                 mReviewerAdapter.addData(list.getData().getUser().get(i).getProfile());
             }
@@ -310,6 +313,4 @@ public class MainActivity extends BaseActivity implements MainActivityView {
                 break;
         }
     }
-
-
 }

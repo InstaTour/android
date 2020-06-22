@@ -108,8 +108,8 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.signup_back_iv:
-                finish();
                 overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
+                finish();
                 break;
         }
     }
@@ -125,8 +125,8 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         int index = mViewPagerSignUp.getCurrentItem();
 
         if (index == 0) {
-            finish();
             overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
+            finish();
         } else {
             if (index == 2) {
                 mTabLayout.getTabAt(0).select();

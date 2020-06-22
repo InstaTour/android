@@ -1,74 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradation_pink_color"
-    android:paddingTop="30dp"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/searchHorizontalMarginDimen"
-    android:paddingRight="@dimen/searchHorizontalMarginDimen">
+    android:background="@drawable/gradation_pink_color">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:fontFamily="@font/nanum_extra_bold"
-        android:includeFontPadding="false"
-        android:letterSpacing="0.1"
-        android:text="캐릭터를"
-        android:textColor="@color/colorWhite"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:fontFamily="@font/nanum_bold"
-        android:layout_marginTop="5dp"
-        android:includeFontPadding="false"
-        android:letterSpacing="0.1"
-        android:text="설정해주세요."
-        android:textColor="@color/colorWhite"
-        android:textSize="25dp"
-        />
-
-    <ImageView
-        android:id="@+id/fragment_signup3_image_iv"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="centerCrop"
-        android:onClick="onClick"
-        android:background="@drawable/main_item_radius_shoadow_background"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/searchHorizontalMarginDimen"
+        android:paddingTop="30dp"
+        android:paddingRight="@dimen/searchHorizontalMarginDimen">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nanum_regular"
-        android:singleLine="true"
-        android:includeFontPadding="false"
-        android:layout_marginTop="5dp"
-        android:textSize="12dp"
-        android:textColor="@color/colorWhite"
-        android:hint="* 사진을 선택하지 않았을 때 인스타투어 기본로고로 설정됩니다."/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/nanum_extra_bold"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.1"
+            android:text="캐릭터를"
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/fragment_signup3_next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:stateListAnimator="@null"
-        android:includeFontPadding="false"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:background="@drawable/signup_radius_background"
-        android:fontFamily="@font/nanum_extra_bold"
-        android:textColor="@color/colorWhite"
-        android:textSize="15sp"
-        android:text="입력 완료"
-        android:onClick="onClick"
-        />
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/nanum_bold"
+            android:includeFontPadding="false"
+            android:letterSpacing="0.1"
+            android:text="설정해주세요."
+            android:textColor="@color/colorWhite"
+            android:textSize="25dp" />
+
+        <ImageView
+            android:id="@+id/fragment_signup3_image_iv"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/main_item_radius_shoadow_background"
+            android:onClick="onClick"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/nanum_regular"
+            android:hint="* 사진을 선택하지 않았을 때 인스타투어 기본로고로 설정됩니다."
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="12dp" />
+
+        <Button
+            android:id="@+id/fragment_signup3_next_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/signup_radius_background"
+            android:fontFamily="@font/nanum_extra_bold"
+            android:includeFontPadding="false"
+            android:onClick="onClick"
+            android:paddingLeft="40dp"
+            android:paddingTop="8dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="8dp"
+            android:stateListAnimator="@null"
+            android:text="입력 완료"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp" />
+    </LinearLayout>
+</ScrollView>

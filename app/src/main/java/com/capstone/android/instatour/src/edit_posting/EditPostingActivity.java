@@ -205,6 +205,9 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
             case R.id.edit_posting_finish_btn:
                 uploadFileToS3();
                 break;
+            case R.id.edit_posting_back_iv:
+                overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
+                finish();
         }
     }
 
@@ -229,6 +232,7 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
             photoFile = createImageFile();
         } catch (IOException e) {
             Toast.makeText(activity, R.string.review_edit_image_error, Toast.LENGTH_SHORT).show();
+            overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
             finish();
         }
         if (photoFile != null) {
@@ -360,6 +364,7 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
                 tmpFile = createImageFile();
             } catch (IOException e) {
                 Toast.makeText(this, "이미지 처리 오류! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
                 finish();
                 e.printStackTrace();
             }
@@ -524,6 +529,7 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
         hideProgressDialog();
         Log.i("Vsdvdsdasdsd", String.valueOf(list.getCode()));
         System.out.println(list.getMessage());
+        overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
         activity.finish();
     }
 
@@ -531,6 +537,7 @@ public class EditPostingActivity extends BaseActivity implements EditPostingActi
     public void validatePostingFailure(String message) {
         hideProgressDialog();
 
+        overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
         activity.finish();
     }
 }

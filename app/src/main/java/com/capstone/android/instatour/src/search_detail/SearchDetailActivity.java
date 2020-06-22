@@ -173,6 +173,7 @@ public class SearchDetailActivity extends BaseActivity implements SearchDetailAc
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_detail_back_iv:
+                overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
                 finish();
                 break;
             case R.id.search_detail_plus_iv:

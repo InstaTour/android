@@ -108,16 +108,16 @@ public class WeeklyAdpater extends RecyclerView.Adapter<WeeklyAdpater.ItemViewHo
             count.setText("게시물 "+ String.valueOf(data.getApx_num()));
 
             if(data.getRelatives() != null && data.getRelatives().get(0) != null) {
-                related1.setText(data.getRelatives().get(0));
+                related1.setText("# " + data.getRelatives().get(0));
             }
             if(data.getRelatives() != null && data.getRelatives().get(1) != null) {
-                related2.setText(data.getRelatives().get(1));
+                related2.setText("# " + data.getRelatives().get(1));
             }
             if(data.getRelatives() != null && data.getRelatives().get(2) != null) {
-                related3.setText(data.getRelatives().get(2));
+                related3.setText("# " + data.getRelatives().get(2));
             }
             if(data.getRelatives() != null && data.getRelatives().get(3) != null) {
-                related4.setText(data.getRelatives().get(3));
+                related4.setText("# " + data.getRelatives().get(3));
             }
 
             layout.setBackground( (GradientDrawable) activity.getDrawable(R.drawable.main_item_radius_background));

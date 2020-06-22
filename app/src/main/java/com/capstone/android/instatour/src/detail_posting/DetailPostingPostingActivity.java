@@ -104,6 +104,10 @@ public class DetailPostingPostingActivity extends BaseActivity implements Detail
                 DetailPostingRatingDialog mDialog = new DetailPostingRatingDialog(activity, 0, dialogRatingInterface);
                 break;
 
+            case R.id.detail_posting_back_iv:
+                overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
+                finish();
+                break;
         }
     }
 

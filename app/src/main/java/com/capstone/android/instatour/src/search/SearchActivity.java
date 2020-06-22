@@ -110,6 +110,9 @@ public class SearchActivity extends BaseActivity {
                 startActivity(intent);
                 overridePendingTransition(R.anim.amin_slide_in_left, R.anim.amin_slide_out_right);
                 break;
+            case R.id.search_search_erase_iv:
+                mEtSearch.setText("");
+                break;
         }
     }
 

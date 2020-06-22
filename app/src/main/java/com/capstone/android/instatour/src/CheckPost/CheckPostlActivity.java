@@ -89,6 +89,7 @@ public class CheckPostlActivity extends BaseActivity implements CheckPostActivit
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.check_post_back_iv:
+                overridePendingTransition(R.anim.amin_slide_in_right, R.anim.amin_slide_out_left);
                 finish();
                 break;
         }

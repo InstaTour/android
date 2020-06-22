@@ -58,6 +58,7 @@
             android:orientation="vertical"
             android:paddingLeft="@dimen/mainWeeklyItemTextDimen"
             android:paddingTop="@dimen/mainWeeklyItemTextDimen">
+            android:paddingBottom="@dimen/mainWeeklyItemTextDimen">
 
             <TextView
                 android:id="@+id/item_week_location_tv"
@@ -84,79 +85,56 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="10dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/item_week_related1_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/nanum_regular"
+                    android:includeFontPadding="false"
+                    android:text="#맛집"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nanum_bold"
-                        android:includeFontPadding="false"
-                        android:text="관련 항목 : "
-                        android:textColor="@color/colorGrey"
-                        android:textSize="13dp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/item_week_related2_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/nanum_regular"
+                    android:includeFontPadding="false"
+                    android:text="#맛집"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                <TextView
+                    android:id="@+id/item_week_related3_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/nanum_regular"
+                    android:includeFontPadding="false"
+                    android:text="#맛집"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/item_week_related1_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/nanum_regular"
-                            android:includeFontPadding="false"
-                            android:text="#맛집"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/item_week_related2_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/nanum_regular"
-                            android:includeFontPadding="false"
-                            android:text="#맛집"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/item_week_related3_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:fontFamily="@font/nanum_regular"
-                            android:includeFontPadding="false"
-                            android:text="#맛집"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/item_week_related4_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/nanum_regular"
-                            android:includeFontPadding="false"
-                            android:text="#맛집"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="13dp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/item_week_related4_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_regular"
+                    android:includeFontPadding="false"
+                    android:text="#맛집"
+                    android:textColor="@color/colorGrey"
+                    android:textSize="13dp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
